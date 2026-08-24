@@ -90,7 +90,14 @@ npm run dev                  # http://localhost:3000
 
 ## 5. Deploying to popspine.com (Vercel)
 
-1. Push this project to a GitHub repo (private is fine).
+1. This zip already has a git repo initialized with one commit (verified
+   `.env`/`node_modules`/`.next` are all excluded — check `git status`
+   yourself if you want to double-check before pushing). Create an empty
+   repo on GitHub (private is fine), then from inside this folder:
+   ```bash
+   git remote add origin git@github.com:<you>/popspine-web.git
+   git push -u origin main
+   ```
 2. [vercel.com/new](https://vercel.com/new) → import that repo → framework
    auto-detects as Next.js, no config needed.
 3. In the Vercel project's **Settings → Environment Variables**, add
