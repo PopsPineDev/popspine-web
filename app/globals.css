@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: radial-gradient(ellipse 80% 50% at 50% -20%, rgba(61, 214, 140, 0.12), transparent), #0a0e12;
+}
+
+.card {
+  @apply bg-panel border border-panelBorder rounded-2xl;
+}
+
+.section {
+  @apply mx-auto max-w-5xl px-6;
+}
