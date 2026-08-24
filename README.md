@@ -72,7 +72,7 @@ vars in Vercel's project settings for production:
 
 | Variable | Where to get it | Notes |
 |---|---|---|
-| `NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID` | [cloud.walletconnect.com](https://cloud.walletconnect.com) — free, takes 2 minutes | **Required at build time.** RainbowKit throws during static generation if this is empty — the build will fail on Vercel without it, same as it did here until I set a dummy value to test. |
+| `NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID` | [dashboard.reown.com](https://dashboard.reown.com) — WalletConnect rebranded to **Reown** in 2025; the old `cloud.walletconnect.com` signup now lives there. Log in, create a project, copy the Project ID — no payment step to get the ID itself, takes a couple minutes. | **Required at build time.** RainbowKit throws during static generation if this is empty — the build will fail on Vercel without it, same as it did here until I set a dummy value to test. |
 | `NEXT_PUBLIC_AGENT_ADDRESS` | An agent wallet address you generate for the **testnet demo only** | Public by design — it's the address visitors approve on testnet, not your real trading agent. Don't reuse your production Hetzner agent address here. |
 
 `NEXT_PUBLIC_WAITLIST_ENDPOINT` (used by `components/WaitlistForm.tsx`) is
@@ -107,10 +107,11 @@ npm run dev                  # http://localhost:3000
    ran before you did.
 4. **Point your domain**: Vercel project → **Settings → Domains** → add
    `popspine.com` (and `www.popspine.com`, redirect one to the other —
-   Vercel's UI offers this automatically). Vercel gives you either an A
-   record (`76.76.21.21`) or a CNAME, depending on whether you're pointing
-   the apex or a subdomain — follow whatever it shows you, since Vercel's
-   anycast IP occasionally changes.
+   Vercel's UI offers this automatically). Vercel will show you the exact
+   A record (apex) or CNAME (subdomain) to add — **use whatever value your
+   own project's Domains card shows**, don't copy one from a guide or a
+   past project: Vercel now assigns anycast IPs from a pool matched to
+   your plan/project, so it's not always the same address for everyone.
 5. In your domain registrar's DNS panel, add the record Vercel showed you.
    Propagation is usually minutes, sometimes up to ~24h depending on your
    registrar's TTL.
