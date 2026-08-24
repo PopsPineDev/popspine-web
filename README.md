@@ -123,32 +123,57 @@ the same Domains panel, but that's explicitly out of scope for now.
 
 ## 6. Known trade-offs / things flagged during the build
 
-- **`next` bumped `14.2.15` → `14.2.35`** to clear a flagged security
-  advisory while staying on the 14.x line (RainbowKit/wagmi's peer ranges
-  are best-tested there; jumping to Next 15/16 wasn't attempted).
-- **`npm audit` went from 26 findings down to 2.** `package.json` has an
-  `overrides` block pinning `axios`, `uuid`, and `ws` to patched versions —
-  these are transitive dependencies pulled in by RainbowKit's wallet
-  connectors (Coinbase's SDK, MetaMask's SDK, WalletConnect's client), not
-  code in this repo, and I checked each override was a same-major-version
-  patch bump (e.g. `uuid@9.0.1 → 11.1.1`, keeping the dual CJS/ESM export
-  shape those SDKs depend on) before applying it, then rebuilt and re-ran
-  `scripts/verify-approve-agent.mjs` to confirm nothing broke.
-- **The remaining 2 findings need `next@16` and I deliberately did not do
-  that.** They're both filed against Next.js itself (Server Actions,
-  middleware, image optimizer, and Next's own bundled `postcss` — see
-  `npm audit` for the full advisory list) and npm's only fix is
-  `next@16.3.2`, a real breaking change: React 19, and RainbowKit's
-  latest release (`2.2.11`, already the newest available) still declares
-  `wagmi: "^2.9.0"` as a hard peer dependency — **there is currently no
-  RainbowKit release that supports `wagmi@3`**, so bumping either one
-  first would break wallet-connect outright, not just risk it. Worth
-  noting for actual risk, not just to excuse leaving it: this app doesn't
-  use Server Actions, Middleware, `next/image` `remotePatterns`, or i18n
-  routing — the features most of these specific CVEs are about — so the
-  real exposure on this specific static page is smaller than "2 high
-  findings" sounds. Re-run `npm audit` occasionally; once RainbowKit ships
-  wagmi v3 support, revisit this.
+- **`npm audit`: 26 findings → 0.** History of how it got there:
+  1. `next` bumped `14.2.15 → 14.2.35` (patched the flagged 14.x advisory).
+  2. `package.json` `overrides` pinned `axios`, `uuid`, and `ws` — deep
+     transitive deps pulled in by RainbowKit's wallet connectors
+     (Coinbase's SDK, MetaMask's SDK, WalletConnect's client), not code in
+     this repo — to patched, same-major-version releases (e.g.
+     `uuid@9.0.1 → 11.1.1`, verified it keeps the dual CJS/ESM export shape
+     those SDKs need). 26 → 2.
+  3. **`next` bumped `14.2.35 → 16.3.2`, `react`/`react-dom` `18.3.1 →
+     19.2.8`.** This is the jump I'd flagged as risky and held off on
+     until you gave the go-ahead — RainbowKit's latest release (`2.2.11`,
+     still the newest as of this build) hard-pins `wagmi: "^2.9.0"` as a
+     peer dependency, so a `wagmi@3` bump (npm's own suggested "fix")
+     would've broken wallet-connect outright. Going `next@16` instead
+     sidesteps that entirely — wagmi/viem/RainbowKit stayed on their
+     existing 2.x versions the whole time, only Next and React moved.
+     2 → 0.
+  - **Turbopack risk, and how I avoided it:** Next 16 makes Turbopack the
+    default bundler, and there's an open RainbowKit compatibility bug with
+    it ([rainbow-me/rainbowkit#2595](https://github.com/rainbow-me/rainbowkit/issues/2595) —
+    `pino`/`thread-stream` module resolution fails under Turbopack). Next
+    16 also *requires* opting out of Turbopack explicitly if your project
+    has a custom `webpack()` config (this one does, for the `@x402`/`pino-pretty`
+    aliasing below) — it fails the build otherwise rather than silently
+    ignoring your config. So `package.json`'s `dev`/`build` scripts both
+    pass `--webpack` to keep using the same webpack pipeline this project
+    was already built and tested against, sidestepping the open Turbopack
+    bug entirely rather than betting on it. You get the Next 16 security
+    fixes without picking up Turbopack's newer, less-proven-with-RainbowKit
+    default.
+  - **What I checked before calling it done:** clean `next build --webpack`
+    (webpack compile + TypeScript + static generation all passed, first
+    try), `npm audit` → 0, then a real production smoke test —
+    `next start`, curled the page, confirmed HTTP 200, real page content,
+    and that every "error" string in the served HTML was benign (RainbowKit's
+    own `--rk-colors-error` CSS theme token, Next's built-in error-page
+    boilerplate that ships in every app) rather than an actual thrown
+    exception. Also re-ran `scripts/verify-approve-agent.mjs` — same
+    result as before (wallet-adapter dispatch confirmed working, blocked
+    only by this sandbox's lack of general internet egress) — confirming
+    the upgrade didn't change that code path's behavior.
+  - Per [Next 16's upgrade guide](https://nextjs.org/docs/app/guides/upgrading/version-16),
+    also added `data-scroll-behavior="smooth"` to `<html>` in
+    `app/layout.tsx` (Next no longer auto-manages `scroll-behavior:
+    smooth` during navigations unless you opt in) and dropped the `lint`
+    script (`next lint` was removed in v16; there's no ESLint config in
+    this project yet, so nothing was depending on it).
+  - Everything else in the v16 breaking-changes list — async
+    `params`/`searchParams`/`cookies`/`headers`, `middleware` → `proxy`,
+    parallel routes, sitemaps, AMP — doesn't apply here: this is a single
+    static page with no dynamic routes, no middleware, no Server Actions.
 - `next.config.mjs` has a webpack `resolve.alias`/`fallback` block. This
   is a standard, documented workaround for a real build failure: RainbowKit
   pulls in Coinbase's Smart Wallet connector, which pulls in optional
