@@ -126,14 +126,29 @@ the same Domains panel, but that's explicitly out of scope for now.
 - **`next` bumped `14.2.15` → `14.2.35`** to clear a flagged security
   advisory while staying on the 14.x line (RainbowKit/wagmi's peer ranges
   are best-tested there; jumping to Next 15/16 wasn't attempted).
-- `npm audit` still reports moderate/high findings in **transitive**
-  wallet-connector dependencies (`axios` via Coinbase's SDK, `postcss` via
-  Next's own tooling, `uuid` via MetaMask's SDK). These are ecosystem-wide
-  issues in `wagmi`/`RainbowKit`'s dependency tree, not code in this repo,
-  and the "fix" npm offers for them is a breaking major-version bump
-  (`wagmi@3`, `next@16`) that risks breaking the wallet-connect flow this
-  whole page is built around. Flagging so you can decide — not something I
-  changed unilaterally.
+- **`npm audit` went from 26 findings down to 2.** `package.json` has an
+  `overrides` block pinning `axios`, `uuid`, and `ws` to patched versions —
+  these are transitive dependencies pulled in by RainbowKit's wallet
+  connectors (Coinbase's SDK, MetaMask's SDK, WalletConnect's client), not
+  code in this repo, and I checked each override was a same-major-version
+  patch bump (e.g. `uuid@9.0.1 → 11.1.1`, keeping the dual CJS/ESM export
+  shape those SDKs depend on) before applying it, then rebuilt and re-ran
+  `scripts/verify-approve-agent.mjs` to confirm nothing broke.
+- **The remaining 2 findings need `next@16` and I deliberately did not do
+  that.** They're both filed against Next.js itself (Server Actions,
+  middleware, image optimizer, and Next's own bundled `postcss` — see
+  `npm audit` for the full advisory list) and npm's only fix is
+  `next@16.3.2`, a real breaking change: React 19, and RainbowKit's
+  latest release (`2.2.11`, already the newest available) still declares
+  `wagmi: "^2.9.0"` as a hard peer dependency — **there is currently no
+  RainbowKit release that supports `wagmi@3`**, so bumping either one
+  first would break wallet-connect outright, not just risk it. Worth
+  noting for actual risk, not just to excuse leaving it: this app doesn't
+  use Server Actions, Middleware, `next/image` `remotePatterns`, or i18n
+  routing — the features most of these specific CVEs are about — so the
+  real exposure on this specific static page is smaller than "2 high
+  findings" sounds. Re-run `npm audit` occasionally; once RainbowKit ships
+  wagmi v3 support, revisit this.
 - `next.config.mjs` has a webpack `resolve.alias`/`fallback` block. This
   is a standard, documented workaround for a real build failure: RainbowKit
   pulls in Coinbase's Smart Wallet connector, which pulls in optional
