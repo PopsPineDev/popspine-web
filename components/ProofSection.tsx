@@ -55,6 +55,13 @@ export function ProofSection() {
             <div className="flex flex-col items-center gap-4 py-6 text-center">
               <p className="text-sm text-textDim">Step 1 — connect a wallet (testnet, any EVM wallet works)</p>
               <ConnectButton />
+              <p className="max-w-md text-xs text-textDim">
+                Your wallet may flag this as a new/unlisted site — that&apos;s
+                expected for a domain that just launched, not a sign of risk.
+                If you&apos;d rather not connect your main wallet to any new
+                site as a rule (smart habit), any wallet with a small test
+                balance works the same for this demo.
+              </p>
             </div>
           ) : (
             <div className="flex flex-col items-center gap-4 py-6 text-center">
