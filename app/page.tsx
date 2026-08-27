@@ -1,23 +1,34 @@
-import { Header } from "@/components/Header";
+import { NavBar } from "@/components/NavBar";
 import { Hero } from "@/components/Hero";
-import { HowItWorks } from "@/components/HowItWorks";
 import { ProofSection } from "@/components/ProofSection";
-import { Differentiators } from "@/components/Differentiators";
-import { BuilderCodeSection } from "@/components/BuilderCodeSection";
-import { WaitlistForm } from "@/components/WaitlistForm";
+import { Why } from "@/components/Why";
+import { Pricing } from "@/components/Pricing";
+import { Faq } from "@/components/Faq";
+import { WaitSection } from "@/components/WaitSection";
 import { Footer } from "@/components/Footer";
+import { SiteFX } from "@/components/SiteFX";
 
 export default function Home() {
   return (
-    <main>
-      <Header />
-      <Hero />
-      <HowItWorks />
-      <ProofSection />
-      <Differentiators />
-      <BuilderCodeSection />
-      <WaitlistForm />
+    <>
+      <div className="aurora">
+        <div className="blob b1"></div>
+        <div className="blob b2"></div>
+        <div className="blob b3"></div>
+        <div className="blob b4"></div>
+      </div>
+      <div className="grain"></div>
+      <NavBar />
+      <main>
+        <Hero />
+        <ProofSection />
+        <Why />
+        <Pricing />
+        <Faq />
+        <WaitSection />
+      </main>
       <Footer />
-    </main>
+      <SiteFX />
+    </>
   );
 }
