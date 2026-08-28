@@ -1,8 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { useAccount } from "wagmi";
-import { isVerified, VERIFIED_EVENT } from "@/lib/verified";
+import { useVerified } from "@/lib/useVerified";
 import { WaitForm } from "./WaitForm";
 
 const LINKS = [
@@ -20,18 +19,9 @@ const LINKS = [
  */
 export function NavBar() {
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const { isConnected, address } = useAccount();
-  const [verified, setVerified] = useState(false);
-
   // Mirror the proof card's "signature verified" state (24h, same address)
-  // into the nav CTA — set in an effect so SSR and first client paint match.
-  useEffect(() => {
-    const check = () =>
-      setVerified(Boolean(isConnected && address && isVerified(address)));
-    check();
-    window.addEventListener(VERIFIED_EVENT, check);
-    return () => window.removeEventListener(VERIFIED_EVENT, check);
-  }, [isConnected, address]);
+  // into the nav CTA — shared hook, same source of truth as the hero CTA.
+  const verified = useVerified();
   const navLinksRef = useRef<HTMLDivElement>(null);
   const indRef = useRef<HTMLSpanElement>(null);
   const navbarRef = useRef<HTMLDivElement>(null);

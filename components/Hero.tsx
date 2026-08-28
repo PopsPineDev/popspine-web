@@ -1,4 +1,5 @@
 import { JVideo } from "./JVideo";
+import { HeroCta } from "./HeroCta";
 
 function Ck() {
   return (
@@ -54,9 +55,7 @@ export function Hero() {
               </li>
             </ul>
             <div className="cta-row rv d3">
-              <a className="btn" href="#proof">
-                Verify it yourself →
-              </a>
+              <HeroCta />
               <a className="btn btn-ghost" href="#how">
                 See the architecture
               </a>
