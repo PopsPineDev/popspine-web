@@ -52,6 +52,15 @@ export function ProofSection() {
         setState("needs-faucet");
         return;
       }
+      // "Extra agent already used" = this wallet ALREADY approved the agent
+      // on a previous visit — the permission is live on Hyperliquid right
+      // now. That's a success, not an error: treat it as verified (and seed
+      // the 24h memory, which won't exist for pre-memory-feature signers).
+      if (/already used/i.test(msg)) {
+        if (address) saveVerified(address);
+        setState("success");
+        return;
+      }
       setErrorMsg(msg);
       setState("error");
     }
