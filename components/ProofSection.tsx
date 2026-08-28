@@ -12,7 +12,9 @@ const AGENT_ADDRESS = (process.env.NEXT_PUBLIC_AGENT_ADDRESS ||
 const IDLE_STATUS =
   "Testnet only · no funds at risk · nothing is stored · your wallet may flag this as a new site — expected for a young domain (see FAQ)";
 
-type DemoState = "idle" | "signing" | "success" | "error";
+type DemoState = "idle" | "signing" | "success" | "error" | "needs-faucet";
+
+const FAUCET_URL = "https://app.hyperliquid-testnet.xyz/drip";
 
 export function ProofSection() {
   const { isConnected } = useAccount();
@@ -28,7 +30,16 @@ export function ProofSection() {
       await approveAgentOnTestnet(walletClient, AGENT_ADDRESS);
       setState("success");
     } catch (e) {
-      setErrorMsg(e instanceof Error ? e.message : String(e));
+      const msg = e instanceof Error ? e.message : String(e);
+      // Hyperliquid refuses approveAgent for accounts that have never
+      // deposited on testnet — a raw "Must deposit before performing
+      // actions" reads as scary next to "no funds at risk", so translate
+      // it into the actual fix (the free mock-USDC faucet).
+      if (/must deposit/i.test(msg)) {
+        setState("needs-faucet");
+        return;
+      }
+      setErrorMsg(msg);
       setState("error");
     }
   }
@@ -115,7 +126,28 @@ export function ProofSection() {
                   {connectedLabel}
                 </button>
                 <div className="status" id="status" aria-live="polite">
-                  {connectedStatus}
+                  {state === "needs-faucet" ? (
+                    <>
+                      Your wallet isn&rsquo;t activated on Hyperliquid&rsquo;s
+                      testnet yet — grab free mock USDC from{" "}
+                      <a
+                        href={FAUCET_URL}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{
+                          color: "var(--mint-deep)",
+                          fontWeight: 600,
+                          textDecoration: "underline",
+                          textUnderlineOffset: 3,
+                        }}
+                      >
+                        the faucet
+                      </a>{" "}
+                      (no real funds involved), then retry.
+                    </>
+                  ) : (
+                    connectedStatus
+                  )}
                 </div>
                 {state === "success" && (
                   <div style={{ marginTop: 22, textAlign: "center" }}>
