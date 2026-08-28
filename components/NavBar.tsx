@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useAccount } from "wagmi";
+import { isVerified, VERIFIED_EVENT } from "@/lib/verified";
 import { WaitForm } from "./WaitForm";
 
 const LINKS = [
@@ -18,6 +20,18 @@ const LINKS = [
  */
 export function NavBar() {
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const { isConnected, address } = useAccount();
+  const [verified, setVerified] = useState(false);
+
+  // Mirror the proof card's "signature verified" state (24h, same address)
+  // into the nav CTA — set in an effect so SSR and first client paint match.
+  useEffect(() => {
+    const check = () =>
+      setVerified(Boolean(isConnected && address && isVerified(address)));
+    check();
+    window.addEventListener(VERIFIED_EVENT, check);
+    return () => window.removeEventListener(VERIFIED_EVENT, check);
+  }, [isConnected, address]);
   const navLinksRef = useRef<HTMLDivElement>(null);
   const indRef = useRef<HTMLSpanElement>(null);
   const navbarRef = useRef<HTMLDivElement>(null);
@@ -55,7 +69,9 @@ export function NavBar() {
       let cur: HTMLAnchorElement | null = null;
       for (const a of anchors) {
         const t = document.querySelector(a.getAttribute("href") || "");
-        if (t && t.getBoundingClientRect().top <= 140) cur = a;
+        // 170 > the sections' scroll-margin-top (150px), so a section you
+        // just clicked to actually gets marked active — at 140 it never did.
+        if (t && t.getBoundingClientRect().top <= 170) cur = a;
       }
       anchors.forEach((a) => a.classList.toggle("is-active", a === cur));
       if (cur) moveInd(cur);
@@ -191,12 +207,18 @@ export function NavBar() {
               </a>
             ))}
           </div>
-          <a className="btn" href="#proof" aria-label="Verify it yourself">
+          <a
+            className={`btn${verified ? " btn-done" : ""}`}
+            href="#proof"
+            aria-label={
+              verified ? "Wallet verified — view proof" : "Verify it yourself"
+            }
+          >
             <span aria-hidden="true" className="btn-label-full">
-              Verify it yourself
+              {verified ? "Wallet verified ✓" : "Verify it yourself"}
             </span>
             <span aria-hidden="true" className="btn-label-short">
-              Verify
+              {verified ? "Verified ✓" : "Verify"}
             </span>
           </a>
         </div>
@@ -233,11 +255,11 @@ export function NavBar() {
           <a href="#faq">FAQ</a>
         </nav>
         <a
-          className="btn drawer-cta"
+          className={`btn drawer-cta${verified ? " btn-done" : ""}`}
           href="#proof"
           onClick={() => setDrawerOpen(false)}
         >
-          Verify it yourself &rarr;
+          {verified ? "Wallet verified ✓" : "Verify it yourself →"}
         </a>
       </aside>
     </>

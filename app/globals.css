@@ -218,6 +218,13 @@ body.drawer-open{overflow:hidden}
 .btn:hover{transform:translateY(-2px);box-shadow:0 18px 38px -10px rgba(18,183,155,.75)}
 .btn-ghost{background:var(--glass-strong);color:var(--teal-ink);border:1px solid var(--stroke);box-shadow:var(--shadow)}
 .btn-ghost:hover{box-shadow:var(--shadow-lg)}
+/* nav CTA once the proof-demo signature is verified (24h, same address):
+   calmer sage, no glow — a badge, not a call to action. Still clickable. */
+.btn-done{
+  background:linear-gradient(135deg,#9CC9C0 0%,#7FAFA5 100%);
+  color:#0A3F3A;box-shadow:none;
+}
+.btn-done:hover{transform:none;box-shadow:0 6px 16px -8px rgba(10,63,58,.35)}
 
 /* ---------- hero ---------- */
 .hero{padding-top:0;padding-bottom:70px;text-align:center;overflow:hidden}

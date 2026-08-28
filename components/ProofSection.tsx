@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAccount, useWalletClient } from "wagmi";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { approveAgentOnTestnet } from "@/lib/hyperliquid";
+import { isVerified, saveVerified } from "@/lib/verified";
 import { WaitForm } from "./WaitForm";
 
 const AGENT_ADDRESS = (process.env.NEXT_PUBLIC_AGENT_ADDRESS ||
@@ -17,10 +18,21 @@ type DemoState = "idle" | "signing" | "success" | "error" | "needs-faucet";
 const FAUCET_URL = "https://app.hyperliquid-testnet.xyz/drip";
 
 export function ProofSection() {
-  const { isConnected } = useAccount();
+  const { isConnected, address } = useAccount();
   const { data: walletClient } = useWalletClient();
   const [state, setState] = useState<DemoState>("idle");
   const [errorMsg, setErrorMsg] = useState("");
+
+  // Restore a signature verified within the last 24h for this same address
+  // (wagmi restores the wallet connection itself), and drop a restored
+  // success if the user switches to an address that hasn't verified.
+  useEffect(() => {
+    if (isConnected && address && isVerified(address)) {
+      setState("success");
+    } else {
+      setState((s) => (s === "success" ? "idle" : s));
+    }
+  }, [isConnected, address]);
 
   async function runDemo() {
     if (!walletClient) return;
@@ -28,6 +40,7 @@ export function ProofSection() {
     setErrorMsg("");
     try {
       await approveAgentOnTestnet(walletClient, AGENT_ADDRESS);
+      if (address) saveVerified(address);
       setState("success");
     } catch (e) {
       const msg = e instanceof Error ? e.message : String(e);
@@ -46,10 +59,12 @@ export function ProofSection() {
 
   const connectedLabel =
     state === "signing"
-      ? "Check your wallet…"
+      ? "Requesting signature…"
       : state === "success"
         ? "Signature verified ✓"
-        : "Request testnet signature";
+        : state === "needs-faucet"
+          ? "Retry after faucet ↻"
+          : "Request testnet signature";
 
   const connectedStatus =
     state === "signing"
