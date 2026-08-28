@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useAccount, useWalletClient } from "wagmi";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { approveAgentOnTestnet } from "@/lib/hyperliquid";
+import { WaitForm } from "./WaitForm";
 
 const AGENT_ADDRESS = (process.env.NEXT_PUBLIC_AGENT_ADDRESS ||
   "0x0000000000000000000000000000000000000000") as `0x${string}`;
@@ -116,6 +117,23 @@ export function ProofSection() {
                 <div className="status" id="status" aria-live="polite">
                   {connectedStatus}
                 </div>
+                {state === "success" && (
+                  <div style={{ marginTop: 22, textAlign: "center" }}>
+                    <p
+                      style={{
+                        fontSize: "14.5px",
+                        lineHeight: 1.55,
+                        color: "var(--ink)",
+                        fontWeight: 500,
+                        marginBottom: 4,
+                      }}
+                    >
+                      That&rsquo;s the exact mechanism mainnet will use. Want in
+                      when it goes live?
+                    </p>
+                    <WaitForm className="form" />
+                  </div>
+                )}
               </>
             ) : (
               <ConnectButton.Custom>
