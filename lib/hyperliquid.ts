@@ -31,7 +31,7 @@ import type { WalletClient } from "viem";
 export async function approveAgentOnTestnet(
   walletClient: WalletClient,
   agentAddress: `0x${string}`,
-  agentName = "PopSpine (testnet demo)"
+  agentName = "PopSpine demo"
 ) {
   const hl = await import("@nktkas/hyperliquid");
 
