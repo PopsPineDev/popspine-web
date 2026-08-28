@@ -78,9 +78,7 @@ export function ProofSection() {
   const connectedStatus =
     state === "signing"
       ? "Read the permission before you sign — that’s the whole point."
-      : state === "success"
-        ? "Trade-only agent approved on testnet. Revoke any time."
-        : state === "error"
+      : state === "error"
           ? `Didn’t go through: ${errorMsg || "request was rejected or failed."}`
           : "Wallet connected · Hyperliquid testnet — read the permission before you sign.";
 
@@ -168,6 +166,14 @@ export function ProofSection() {
                         the faucet
                       </a>{" "}
                       (no real funds involved), then retry.
+                    </>
+                  ) : state === "success" ? (
+                    <>
+                      Trade-only agent approved on{" "}
+                      <strong style={{ color: "var(--ink)" }}>
+                        Hyperliquid testnet
+                      </strong>
+                      . Revoke any time.
                     </>
                   ) : (
                     connectedStatus
