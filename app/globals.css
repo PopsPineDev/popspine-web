@@ -43,7 +43,10 @@ body{
 
 /* ---------- layout ---------- */
 .wrap{max-width:1180px;margin:0 auto;padding:0 26px}
-section{position:relative;padding:110px 0}
+/* 72px (was 110px): adjacent sections stack their paddings, so 110 meant
+   220px of empty band between content on desktop — mobile was already
+   tightened to 60; this brings desktop into the same rhythm. */
+section{position:relative;padding:72px 0}
 @media(max-width:700px){
   section{padding:60px 0}
   .hero{padding-bottom:44px}
