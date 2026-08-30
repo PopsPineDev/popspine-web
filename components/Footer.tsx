@@ -30,6 +30,9 @@ export function Footer() {
           </div>
           <div className="foot-col">
             <h5>Elsewhere</h5>
+            <a href="https://t.me/popspineledger">
+              Live receipts (Telegram)
+            </a>
             <a href="https://x.com/popspinedev">X / Twitter</a>
             <a href="https://www.tradingview.com/u/PopsPineDev/">
               TradingView (scripts)
