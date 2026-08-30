@@ -14,7 +14,7 @@ export function Footer() {
             <p>
               TradingView strategies, executed on Hyperliquid through a
               trade-only agent wallet. Built in public by{" "}
-              <a href="https://x.com/popspinedev" rel="me">
+              <a target="_blank" rel="me noopener noreferrer" href="https://x.com/popspinedev">
                 @popspinedev
               </a>
               .
@@ -30,23 +30,23 @@ export function Footer() {
           </div>
           <div className="foot-col">
             <h5>Elsewhere</h5>
-            <a href="https://t.me/popspineledger">
+            <a target="_blank" rel="noopener noreferrer" href="https://t.me/popspineledger">
               Live receipts (Telegram)
             </a>
-            <a href="https://x.com/popspinedev">X / Twitter</a>
-            <a href="https://www.tradingview.com/u/PopsPineDev/">
+            <a target="_blank" rel="noopener noreferrer" href="https://x.com/popspinedev">X / Twitter</a>
+            <a target="_blank" rel="noopener noreferrer" href="https://www.tradingview.com/u/PopsPineDev/">
               TradingView (scripts)
             </a>
-            <a href="https://www.fiverr.com/papajune/custom-tradingview-indicator-or-strategy-in-pine-script-v6">
+            <a target="_blank" rel="noopener noreferrer" href="https://www.fiverr.com/papajune/custom-tradingview-indicator-or-strategy-in-pine-script-v6">
               Fiverr (Pine Script services)
             </a>
-            <a href="https://github.com/PopsPineDev">GitHub</a>
-            <a href="https://linktr.ee/PopsPineDev">Linktree</a>
+            <a target="_blank" rel="noopener noreferrer" href="https://github.com/PopsPineDev">GitHub</a>
+            <a target="_blank" rel="noopener noreferrer" href="https://linktr.ee/PopsPineDev">Linktree</a>
             <a href="mailto:contact@popspine.com">contact@popspine.com</a>
           </div>
         </div>
         <div className="foot-bottom">
-          Built in public by <a href="https://x.com/popspinedev">@popspinedev</a>{" "}
+          Built in public by <a target="_blank" rel="noopener noreferrer" href="https://x.com/popspinedev">@popspinedev</a>{" "}
           · Testnet phase — zero live capital · Perpetual futures carry
           substantial risk of loss; automation reduces manual effort, not
           market risk; nothing here is financial advice. · Privacy: the

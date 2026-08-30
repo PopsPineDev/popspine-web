@@ -53,6 +53,14 @@ export function Hero() {
                   Your signals execute <a href="#how">24/7 — awake or not</a>.
                 </span>
               </li>
+              <li>
+                <Ck />
+                <span>
+                  <strong>
+                    Your system, executed — while you live your life.
+                  </strong>
+                </span>
+              </li>
             </ul>
             <div className="cta-row rv d3">
               <HeroCta />
@@ -60,9 +68,6 @@ export function Hero() {
                 See the architecture
               </a>
             </div>
-            <p className="micro hero-close rv d3">
-              Your system, executed — while you live your life.
-            </p>
           </div>
 
           <div className="hero-visual rv d2">
