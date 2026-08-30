@@ -232,7 +232,7 @@ body.drawer-open{overflow:hidden}
 /* ---------- hero ---------- */
 .hero{padding-top:0;padding-bottom:70px;text-align:center;overflow:hidden}
 .hero-grid{display:grid;grid-template-columns:1.02fr .98fr;gap:52px;align-items:center;
-  text-align:left;padding-top:58px}
+  text-align:left;padding-top:10px}
 .hero-copy h1{margin:0;max-width:13ch;font-size:clamp(36px,4.4vw,58px);letter-spacing:-.035em}
 .hero-copy .sub{margin:20px 0 0;max-width:44ch}
 .hero-copy .claims{margin:22px 0 0}
@@ -258,7 +258,7 @@ body.drawer-open{overflow:hidden}
   .form-hero .btn{width:100%;justify-content:center}
 }
 @media(max-width:900px){
-  .hero-grid{grid-template-columns:1fr;gap:38px;padding-top:34px;text-align:center}
+  .hero-grid{grid-template-columns:1fr;gap:38px;padding-top:14px;text-align:center}
   .hero-copy h1,.hero-copy .sub{margin-left:auto;margin-right:auto}
   .hero-copy .claims{margin-left:auto;margin-right:auto}
   .hero-copy .cta-row,.hero-copy .form{justify-content:center}

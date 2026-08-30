@@ -5,10 +5,11 @@ import { useVerified } from "@/lib/useVerified";
 import { WaitForm } from "./WaitForm";
 
 const LINKS = [
-  { href: "#how", label: "How it works" },
+  { href: "#how", label: "How It Works" },
   { href: "#proof", label: "Proof" },
-  { href: "#why", label: "Why it's different" },
+  { href: "#why", label: "Why It's Different" },
   { href: "#pricing", label: "Pricing" },
+  { href: "#faq", label: "FAQ" },
 ];
 
 /**
@@ -238,9 +239,9 @@ export function NavBar() {
           </button>
         </div>
         <nav className="drawer-links" onClick={() => setDrawerOpen(false)}>
-          <a href="#how">How it works</a>
+          <a href="#how">How It Works</a>
           <a href="#proof">Proof</a>
-          <a href="#why">Why it&rsquo;s different</a>
+          <a href="#why">Why It&rsquo;s Different</a>
           <a href="#pricing">Pricing</a>
           <a href="#faq">FAQ</a>
         </nav>
