@@ -57,7 +57,15 @@ export function Hero() {
                 <Ck />
                 <span>
                   <strong>
-                    Your system, executed — while you live your life.
+                    Your system,{" "}
+                    <a
+                      href="https://t.me/popspineledger"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      executed — while you live your life
+                    </a>
+                    .
                   </strong>
                 </span>
               </li>
