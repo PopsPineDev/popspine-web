@@ -60,6 +60,9 @@ export function Hero() {
                 See the architecture
               </a>
             </div>
+            <p className="micro hero-close rv d3">
+              Your system, executed — while you live your life.
+            </p>
           </div>
 
           <div className="hero-visual rv d2">

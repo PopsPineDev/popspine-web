@@ -239,6 +239,11 @@ body.drawer-open{overflow:hidden}
 .hero-copy .cta-row{justify-content:flex-start;margin-top:26px}
 .hero-copy .form{justify-content:flex-start;margin-top:18px}
 .hero-copy .micro{margin-top:11px}
+/* Emotional close under the hero CTAs — the canonical life-frame line
+   (storefront sync Aug 29). Italic + slightly larger than .micro so it
+   reads as a sign-off, not a disclaimer. */
+.hero-close{font-style:italic;font-size:15.5px;color:var(--teal-ink);opacity:.85;
+  margin-top:20px;letter-spacing:-.01em}
 @media(min-width:901px){
   .hero-grid{align-items:stretch}
   .hero-grid .hero-copy{display:flex;flex-direction:column;justify-content:center}
