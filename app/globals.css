@@ -239,6 +239,11 @@ body.drawer-open{overflow:hidden}
 .hero-copy .cta-row{justify-content:flex-start;margin-top:26px}
 .hero-copy .form{justify-content:flex-start;margin-top:18px}
 .hero-copy .micro{margin-top:11px}
+/* Inline code in prose (FAQ answers, proof-card copy): mono face, subtle
+   mint tint — same family as the payload-contract block. */
+code{font-family:'JetBrains Mono',monospace;font-size:.92em;
+  background:rgba(18,183,155,.09);border-radius:6px;padding:1px 6px;
+  color:var(--teal-ink)}
 /* 4th claim = the canonical life-frame line (storefront sync Aug 29),
    bold ink so the ICP's pain point reads instantly in the checklist. */
 .claims strong{color:var(--ink);font-weight:700}

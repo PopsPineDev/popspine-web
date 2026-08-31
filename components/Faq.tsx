@@ -90,6 +90,17 @@ const ITEMS: { q: string; a: React.ReactNode }[] = [
       </p>
     ),
   },
+  {
+    q: "Can’t I just trade Hyperliquid from TradingView?",
+    a: (
+      <p>
+        No. TradingView added native Hyperliquid data in July 2026 — you can
+        chart <code>HYPERLIQUID:BTCUSD</code> around the clock — but it&rsquo;s
+        charting only. There&rsquo;s no broker integration, so no order ever
+        leaves the chart. A webhook is the bridge. That&rsquo;s what this is.
+      </p>
+    ),
+  },
 ];
 
 export function Faq() {
