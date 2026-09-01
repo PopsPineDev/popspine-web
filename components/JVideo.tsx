@@ -56,8 +56,8 @@ export function JVideo() {
         <div className="req-row">
           <span className="req-k">Supported today</span>
           <span className="req-v">
-            <b>BTC, SOL, HYPE</b> perps on Hyperliquid &mdash; more markets as
-            they earn their way in.
+            <b>BTC, ETH, SOL, HYPE</b> perps on Hyperliquid &mdash; more
+            markets as they earn their way in.
           </span>
         </div>
       </div>
