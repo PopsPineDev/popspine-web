@@ -1,7 +1,5 @@
 "use client";
 
-import { useState } from "react";
-
 /**
  * Demo-video slot from the video kit.
  *
@@ -17,32 +15,20 @@ import { useState } from "react";
  * ships, the play button shows an honest status line instead of pretending.
  */
 export function JVideo() {
-  const [status, setStatus] = useState("");
-
   return (
     <div className="jvideo rv d1">
       <div className="jvideo-poster">
         <div className="jv-grid" aria-hidden="true"></div>
-        <div className="jv-tag">demo &middot; 60 seconds &middot; testnet</div>
-        <button
-          className="jv-play"
-          id="jv-play"
-          aria-label="Play the demo"
-          onClick={() =>
-            setStatus(
-              "Being recorded on testnet right now — the walkthrough drops in this exact spot.",
-            )
-          }
-        >
-          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-            <path d="M8 5.5v13l11-6.5z" />
-          </svg>
-        </button>
+        <div className="jv-tag">demo &middot; testnet &middot; in edit</div>
         <div className="jv-line">
-          Watch all three steps happen &mdash; paste, sign, fill.
+          Three steps, filmed on testnet: paste the alert template into a Pine
+          strategy &middot; connect a wallet and read the{" "}
+          <code>approveAgent</code> permission before signing &middot; watch a
+          real signal fill on Hyperliquid and the receipt land in Telegram.
         </div>
         <div className="jv-status" id="jv-status" aria-live="polite">
-          {status}
+          Being cut now — it lands in this exact spot, unlisted first for the
+          waitlist.
         </div>
       </div>
       <div className="jv-reqs">

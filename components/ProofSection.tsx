@@ -91,8 +91,8 @@ export function ProofSection() {
           <p className="lede">
             Everyone writes &quot;non-custodial&quot; on their landing page.
             Here&apos;s the actual permission you&apos;d be granting — request
-            it on testnet right now and read it yourself before you believe
-            anybody, including me.
+            it on testnet right now, in your browser, no install, and read it
+            yourself before you believe anybody, including me.
           </p>
         </div>
 
@@ -255,7 +255,7 @@ export function ProofSection() {
               &nbsp;&nbsp;<span className="k">&quot;ts&quot;</span>: 1787654321000,{" "}
               <span className="k">{"// staleness gate — old signals refused"}</span>
               <br />
-              &nbsp;&nbsp;&quot;strategy&quot;: <span className="ok">&quot;confluence-v6&quot;</span>{" "}
+              &nbsp;&nbsp;&quot;strategy&quot;: <span className="ok">&quot;your-strategy-id&quot;</span>{" "}
               <span className="k">{"// one strategy owns each coin"}</span>
               <br />
               <span className="k">{"}"}</span>
@@ -273,7 +273,9 @@ export function ProofSection() {
               and everything on a bad one: <code>signal_id</code> kills
               duplicates, <code>ts</code> refuses stale signals, and on exits{" "}
               <code>reduce_only: true</code> means a close can never
-              accidentally open a position.
+              accidentally open a position. On exits the size is also clamped
+              to the live position on the exchange — a late or duplicate close
+              can shrink a position, never flip it.
             </p>
           </div>
         </div>

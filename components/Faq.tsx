@@ -65,9 +65,17 @@ const ITEMS: { q: string; a: React.ReactNode }[] = [
         ugly weeks. I&rsquo;m pseudonymous, but everything is
         checkable: this site&rsquo;s code is{" "}
         <a href="https://github.com/PopsPineDev">public on GitHub</a>, the
-        receipts land on <a href="https://x.com/popspinedev">X</a>, and the
-        testnet demo above doesn&rsquo;t care who I am — read the signature
-        instead of trusting a face.
+        execution receipts land on a{" "}
+        <a
+          href="https://t.me/popspineledger"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          public Telegram channel
+        </a>{" "}
+        as they happen, the weekly ledger lands in your inbox, and the testnet
+        demo above doesn&rsquo;t care who I am — read the signature instead of
+        trusting a face.
       </p>
     ),
   },
@@ -88,6 +96,20 @@ const ITEMS: { q: string; a: React.ReactNode }[] = [
       <p>
         No keys, ever — they never leave your wallet. The waitlist stores your
         email and nothing else.
+      </p>
+    ),
+  },
+  {
+    q: "What happens when my trailing stop moves or fills mid-bar?",
+    a: (
+      <p>
+        It executes. TradingView builds exit alerts at bar close, but a
+        trailing stop fills intrabar — so a naive executor sees an
+        &ldquo;old&rdquo; timestamp and refuses its own exit. Here, exits,
+        reduce-only closes and stop-moves are exempt from the freshness gate
+        and guarded by the dedupe id instead. If a stop can&rsquo;t be
+        replaced, the position is never left unguarded. This is the bug
+        that bit me in testnet and the reason the exemption exists.
       </p>
     ),
   },

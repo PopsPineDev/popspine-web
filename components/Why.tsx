@@ -47,11 +47,15 @@ export function Why() {
                 <path d="M9 12l2 2 4-4" />
               </svg>
             </div>
-            <h3>Safety lives on-exchange</h3>
+            <h3>Exits that survive the bar</h3>
             <p>
-              Stops and targets are placed as real orders the moment a
-              position opens. If the server dies mid-trade, the position stays
-              guarded.
+              TradingView writes an exit alert at bar close; the trailing stop
+              fills mid-bar. A naive executor sees an &ldquo;old&rdquo;
+              timestamp and refuses its own exit. Here, exits, reduce-only
+              closes and stop-moves skip the freshness gate, are guarded by the
+              dedupe id instead, and can only shrink a position — never flip
+              it. If a stop can&rsquo;t be replaced, the position is
+              never left unguarded. Learned in testnet, kept on purpose.
             </p>
           </div>
           <div className="card rv d2">

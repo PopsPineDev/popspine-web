@@ -30,8 +30,9 @@ export function Hero() {
               <span className="grad">Never your private key.</span>
             </h1>
             <p className="sub rv d2">
-              TradingView alerts fire straight into Hyperliquid through a
-              non-custodial agent wallet.
+              Your Pine strategy fires the alert. The order, the stop and the
+              exit land on Hyperliquid exactly as written — through a
+              permission you can read and revoke.
             </p>
             <ul className="claims rv d3">
               <li>
@@ -50,7 +51,9 @@ export function Hero() {
               <li>
                 <Ck />
                 <span>
-                  Your signals execute <a href="#how">24/7 — awake or not</a>.
+                  Exits and stops that fill mid-bar{" "}
+                  <a href="#how">still execute</a> — nothing refused as
+                  &ldquo;stale&rdquo;.
                 </span>
               </li>
               <li>
@@ -100,12 +103,12 @@ export function Hero() {
                 </div>
                 <div className="tg-msg">
                   <span className="tg-side tg-long">LONG</span> BTC/USDC filled{" "}
-                  <b>0.5 @ 78,929</b>
+                  <b>@ 78,929</b>
                   <span className="tg-time">03:47</span>
                 </div>
                 <div className="tg-msg">
-                  <span className="tg-side tg-exit">EXIT</span> BTC/USDC closed{" "}
-                  <b>0.5 @ 79,683</b>
+                  <span className="tg-side tg-exit">EXIT</span> BTC/USDC ·
+                  stop hit <b>@ 78,410</b>
                   <span className="tg-time">06:12</span>
                 </div>
               </div>
@@ -142,8 +145,8 @@ export function Hero() {
             <h4>That&rsquo;s it. Signals execute 24/7.</h4>
             <p>
               Every entry, exit, and stop lands on Hyperliquid whether
-              you&rsquo;re at the screen or asleep — with the receipt pushed to
-              Telegram the moment it fills.
+              you&rsquo;re at the screen or asleep — with the receipt on your
+              phone before you&rsquo;ve looked up.
             </p>
           </div>
         </div>
@@ -176,7 +179,10 @@ export function Hero() {
             <h4>Execution layer</h4>
             <p>
               Validated, deduped, freshness-checked, ownership-guarded — then
-              executed.
+              executed. Exits and stop-moves are exempt from the freshness gate
+              on purpose: TradingView composes them at bar close, the fill
+              happens intrabar, and a stop that fires mid-bar must never be
+              refused as &ldquo;stale&rdquo;.
             </p>
           </div>
           <div className="node rv d3">
