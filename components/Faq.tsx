@@ -60,8 +60,9 @@ const ITEMS: { q: string; a: React.ReactNode }[] = [
     a: (
       <p>
         One developer, in public. I write Pine Script v6 daily, run this exact
-        infrastructure on my own capital, and publish the weekly ledgers —
-        including the ugly weeks. I&rsquo;m pseudonymous, but everything is
+        infrastructure on my own capital — testnet today, mainnet only when
+        the evidence says so — and publish the weekly ledgers, including the
+        ugly weeks. I&rsquo;m pseudonymous, but everything is
         checkable: this site&rsquo;s code is{" "}
         <a href="https://github.com/PopsPineDev">public on GitHub</a>, the
         receipts land on <a href="https://x.com/popspinedev">X</a>, and the
