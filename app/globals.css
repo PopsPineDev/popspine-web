@@ -556,8 +556,12 @@ footer a{color:var(--mint-text);text-decoration:none;font-weight:600}
   background:linear-gradient(155deg,#0C312C 0%,#06201D 55%,#041614 100%)}
 .jv-video{display:block;width:100%;aspect-ratio:16/9;background:#041614;
   object-fit:cover;border:0}
-.jv-cap{display:flex;flex-direction:column;align-items:center;gap:11px;
-  padding:16px 0 18px}
+/* Left-aligned, matching the hero. Centred prose reads as a caption under
+   a photo; this block is three lines of explanation and a control, and a
+   ragged left edge makes each line restart in a different place. The
+   padding lives here so every child shares one text edge. */
+.jv-cap{display:flex;flex-direction:column;align-items:flex-start;gap:11px;
+  padding:18px 22px 20px;text-align:left}
 .jv-tag{position:relative;font-family:'JetBrains Mono',monospace;font-size:12.5px;font-weight:400;
   letter-spacing:.18em;text-transform:uppercase;color:var(--mint)}
 /* Reads as a link because it acts like one; a button because it swaps a
@@ -571,20 +575,22 @@ footer a{color:var(--mint-text);text-decoration:none;font-weight:600}
   opacity:.85;transition:opacity .2s}
 .jv-hq:hover{opacity:1}
 .jv-hq-on{opacity:.55}
+/* text-wrap:pretty, not balance — balance evens the line lengths, which is
+   what you want over a centred block and works against a flush left edge. */
 .jv-line{position:relative;font-size:14.5px;color:rgba(255,255,255,.85);
-  max-width:42ch;text-align:center;padding:0 20px;line-height:1.5;text-wrap:balance}
+  max-width:60ch;line-height:1.55;text-wrap:pretty}
 /* The global inline-code style uses --teal-ink, which is tuned for the
    light page. On the caption's near-black ground it reads as a smudge —
    so mint here, the same colour the tag line above it already uses. */
 .jv-cap code{color:var(--mint);background:rgba(79,224,196,.14)}
-.jv-status{position:relative;text-align:center;
+.jv-status{position:relative;
   font-family:'JetBrains Mono',monospace;font-size:12.5px;color:var(--mint);
-  min-height:17px;padding:0 20px;max-width:52ch;line-height:1.5}
+  min-height:17px;max-width:60ch;line-height:1.5}
 @media(max-width:700px){
   .jvideo{margin-top:20px;padding:10px;border-radius:22px}
   .jv-shell{border-radius:13px}
-  .jv-cap{gap:10px;padding:13px 0 15px}
-  .jv-line{font-size:13px;max-width:34ch}
+  .jv-cap{gap:10px;padding:14px 16px 16px}
+  .jv-line{font-size:13px}
   .jv-status{font-size:11.5px}
 }
 

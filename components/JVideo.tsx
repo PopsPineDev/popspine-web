@@ -73,7 +73,7 @@ export function JVideo() {
           onPlay={() => track("demo_play")}
         />
         <div className="jv-cap">
-          <h2 className="jv-tag">demo &middot; paste &middot; sign &middot; fill</h2>
+          <h2 className="jv-tag">paste &middot; sign &middot; fill</h2>
           <div className="jv-line">
             Three steps, filmed on testnet: paste the alert template into a Pine
             strategy &middot; connect a wallet and read the{" "}
