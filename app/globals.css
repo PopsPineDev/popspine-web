@@ -522,6 +522,10 @@ footer a{color:var(--mint-deep);text-decoration:none;font-weight:600}
 .jv-hq-on{opacity:.55}
 .jv-line{position:relative;font-size:14.5px;color:rgba(255,255,255,.85);
   max-width:42ch;text-align:center;padding:0 20px;line-height:1.5;text-wrap:balance}
+/* The global inline-code style uses --teal-ink, which is tuned for the
+   light page. On the caption's near-black ground it reads as a smudge —
+   so mint here, the same colour the tag line above it already uses. */
+.jv-cap code{color:var(--mint);background:rgba(79,224,196,.14)}
 .jv-status{position:relative;text-align:center;
   font-family:'JetBrains Mono',monospace;font-size:12.5px;color:var(--mint);
   min-height:17px;padding:0 20px;max-width:52ch;line-height:1.5}
