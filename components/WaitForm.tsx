@@ -9,7 +9,7 @@ import {
   JOINED_EVENT,
   PENDING_EVENT,
 } from "@/lib/joined";
-import { suggestEmail } from "@/lib/emailHint";
+import { suggestEmail, isValidEmail } from "@/lib/email";
 
 const ENDPOINT = process.env.NEXT_PUBLIC_WAITLIST_ENDPOINT || "";
 
@@ -44,6 +44,7 @@ export function WaitForm({
   const [status, setStatus] = useState<Status>("idle");
   const [hint, setHint] = useState<string | null>(null);
   const [hintShown, setHintShown] = useState(false);
+  const [reason, setReason] = useState<string | null>(null);
 
   useEffect(() => {
     // ?subscribed=1 = arrival from the beehiiv double-opt-in confirmation.
@@ -75,7 +76,7 @@ export function WaitForm({
       : status === "joined"
         ? "Ledgers land in your inbox weekly. Nothing else to do."
         : status === "error"
-          ? "Something went wrong — try again, or DM @PopsPineDev."
+          ? (reason ?? "Something went wrong — try again, or DM @PopsPineDev.")
           : defaultMsg;
 
   const label =
@@ -95,6 +96,15 @@ export function WaitForm({
     // let it be offered again.
     if (hint) setHint(null);
     if (hintShown) setHintShown(false);
+    if (status === "error") {
+      setStatus("idle");
+      setReason(null);
+    }
+  }
+
+  function fail(message: string) {
+    setReason(message);
+    setStatus("error");
   }
 
   function acceptHint() {
@@ -109,6 +119,12 @@ export function WaitForm({
     const value = email.trim();
     if (!value || status === "sending") return;
 
+    // Format first — a malformed address never reaches the network.
+    if (!isValidEmail(value)) {
+      fail("That isn’t a complete address — check the @ and the ending.");
+      return;
+    }
+
     // Offer a correction once. A second submit of the same value proceeds,
     // so an unusual-but-real domain is never blocked.
     if (!hintShown) {
@@ -122,25 +138,43 @@ export function WaitForm({
     }
 
     if (!ENDPOINT) {
-      setStatus("error");
+      fail("Something went wrong — try again, or DM @PopsPineDev.");
       return;
     }
     setStatus("sending");
+    setReason(null);
     try {
       const r = await fetch(ENDPOINT, {
         method: "POST",
         headers: { "Content-Type": "application/json", Accept: "application/json" },
         body: JSON.stringify({ email: value, source: "popspine.com" }),
       });
-      if (!r.ok) throw new Error(String(r.status));
+      if (!r.ok) {
+        // The route names why, so the person can fix it instead of
+        // guessing. Anything unrecognised falls back to the generic line.
+        let code = "";
+        try {
+          code = ((await r.json()) as { error?: string }).error ?? "";
+        } catch {
+          /* no body — generic message */
+        }
+        if (code === "no_mx") {
+          fail("That domain can’t receive email — check the spelling.");
+        } else if (code === "invalid_format") {
+          fail("That isn’t a complete address — check the @ and the ending.");
+        } else {
+          fail("Something went wrong — try again, or DM @PopsPineDev.");
+        }
+        return;
+      }
       setStatus("sent");
       setEmail("");
       setHint(null);
+      setReason(null);
       // Pending for this visit only — confirmation is what makes it real.
       markPending();
     } catch {
-      setStatus("error");
-      setTimeout(() => setStatus("idle"), 2800);
+      fail("Something went wrong — try again, or DM @PopsPineDev.");
     }
   }
 
@@ -180,8 +214,14 @@ export function WaitForm({
           ?
         </div>
       )}
-      {showMessage && (
-        <div className="micro" id="wlmsg" aria-live="polite">
+      {/* The announce bar renders no message line, but an error must always
+          be readable — otherwise the only feedback is a button label. */}
+      {(showMessage || status === "error") && (
+        <div
+          className={showMessage ? "micro" : "micro wl-hint"}
+          id={showMessage ? "wlmsg" : undefined}
+          aria-live="polite"
+        >
           {msg}
         </div>
       )}

@@ -1,4 +1,6 @@
 import { NextResponse } from "next/server";
+import { promises as dns } from "dns";
+import { isValidEmail } from "@/lib/email";
 
 /**
  * Waitlist relay: the site forms POST {email, source} here, and this route
@@ -6,18 +8,68 @@ import { NextResponse } from "next/server";
  * reaches the browser. With double opt-in enabled in beehiiv, the
  * subscriber gets a confirmation email, then the welcome email.
  *
+ * Three gates, weakest to strongest:
+ *   1. format     — shared regex, same rule the browser applied
+ *   2. MX lookup  — does the domain accept mail at all? Catches invented
+ *                   and unregistered domains that the regex can't see.
+ *   3. double opt-in (beehiiv) — the only real proof: a human opened the
+ *                   mail and clicked. Nothing here can substitute for it.
+ *
  * Required env vars (server-side, NOT NEXT_PUBLIC):
  *   BEEHIIV_API_KEY        — beehiiv Settings → Workspace → API
  *   BEEHIIV_PUBLICATION_ID — starts with "pub_", same page
  */
 
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+// dns needs the Node runtime; App Router defaults to it, but say so
+// explicitly so an edge migration can't silently break the MX gate.
+export const runtime = "nodejs";
+
+const DNS_TIMEOUT_MS = 3000;
+
+/**
+ * true  — the domain has somewhere to deliver mail
+ * false — it definitively does not (NXDOMAIN, or no MX and no A record)
+ * null  — we couldn't find out (timeout, SERVFAIL)
+ *
+ * Fails OPEN on null: a DNS blip must never cost a real signup. Only a
+ * definitive "this domain cannot receive mail" rejects.
+ */
+async function domainAcceptsMail(domain: string): Promise<boolean | null> {
+  let timer: ReturnType<typeof setTimeout> | undefined;
+  const timeout = new Promise<null>((resolve) => {
+    timer = setTimeout(() => resolve(null), DNS_TIMEOUT_MS);
+  });
+
+  const lookup = (async (): Promise<boolean | null> => {
+    try {
+      const mx = await dns.resolveMx(domain);
+      if (mx.length > 0) return true;
+    } catch (e) {
+      const code = (e as NodeJS.ErrnoException).code;
+      if (code !== "ENOTFOUND" && code !== "ENODATA") return null; // transient
+    }
+    // No MX. RFC 5321 falls back to the A record, so a domain can still
+    // receive mail without one — check before rejecting.
+    try {
+      const a = await dns.resolve4(domain);
+      return a.length > 0;
+    } catch {
+      return false;
+    }
+  })();
+
+  try {
+    return await Promise.race([lookup, timeout]);
+  } finally {
+    if (timer) clearTimeout(timer);
+  }
+}
 
 export async function POST(req: Request) {
   const apiKey = process.env.BEEHIIV_API_KEY;
   const pubId = process.env.BEEHIIV_PUBLICATION_ID;
   if (!apiKey || !pubId) {
-    return NextResponse.json({ error: "not configured" }, { status: 500 });
+    return NextResponse.json({ error: "not_configured" }, { status: 500 });
   }
 
   let email = "";
@@ -27,8 +79,14 @@ export async function POST(req: Request) {
   } catch {
     /* fall through to validation */
   }
-  if (!EMAIL_RE.test(email) || email.length > 320) {
-    return NextResponse.json({ error: "invalid email" }, { status: 400 });
+
+  if (!isValidEmail(email)) {
+    return NextResponse.json({ error: "invalid_format" }, { status: 400 });
+  }
+
+  const domain = email.slice(email.lastIndexOf("@") + 1).toLowerCase();
+  if ((await domainAcceptsMail(domain)) === false) {
+    return NextResponse.json({ error: "no_mx" }, { status: 400 });
   }
 
   const r = await fetch(
@@ -54,7 +112,7 @@ export async function POST(req: Request) {
   if (!r.ok) {
     // Don't leak upstream details to the browser; log server-side only.
     console.error("beehiiv subscribe failed", r.status, await r.text());
-    return NextResponse.json({ error: "subscribe failed" }, { status: 502 });
+    return NextResponse.json({ error: "subscribe_failed" }, { status: 502 });
   }
 
   return NextResponse.json({ ok: true });

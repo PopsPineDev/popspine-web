@@ -1,4 +1,19 @@
-// Typo catcher for the waitlist forms.
+// Client-side email checks for the waitlist forms: format, then typo.
+//
+// What this file can and cannot know, stated plainly so nobody tightens it
+// in the wrong direction later:
+//
+//   CAN   — reject a malformed address (no TLD, doubled dots, bad domain
+//           label) and suggest the intended domain for a near-miss.
+//   CANNOT — tell whether a mailbox exists. "a@gmail.com" is a perfectly
+//           valid address by RFC 5321; only Gmail knows if it resolves, and
+//           Gmail's 6-character username minimum is a signup policy, not an
+//           email rule. Encoding per-provider local-part rules here would
+//           eventually reject somebody real. Deliverability is checked
+//           server-side (MX lookup) and finally proven by double opt-in,
+//           which is the only thing that shows a human read the mail.
+//
+// ---------------------------------------------------------------------------
 //
 // A format-valid address at a domain that doesn't exist (gmial.com,
 // yahoo.co) is accepted by every regex and by beehiiv, then silently never
@@ -49,6 +64,24 @@ const KNOWN = [
   "rogers.com",
   "sympatico.ca",
 ];
+
+/**
+ * Format gate. Stricter than the usual `[^\s@]+@[^\s@]+\.[^\s@]+`, which
+ * happily accepts `a@b.c`, `.x@y.com`, `a..b@y.com` and `a@-y.com`.
+ *
+ * Local part: RFC 5322 dot-atom — permitted specials, dot-separated, no
+ * leading, trailing or doubled dots. Domain: one or more labels that start
+ * and end alphanumeric, then a TLD of at least two letters. Quoted local
+ * parts ("weird name"@x.com) are legal but effectively never used for a
+ * signup form, so they are deliberately out.
+ */
+export const EMAIL_RE =
+  /^[A-Za-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[A-Za-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?\.)+[A-Za-z]{2,}$/;
+
+export function isValidEmail(email: string): boolean {
+  const value = email.trim();
+  return value.length <= 254 && EMAIL_RE.test(value);
+}
 
 /** Standard Levenshtein distance, two-row rolling buffer. */
 function distance(a: string, b: string): number {

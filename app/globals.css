@@ -364,7 +364,7 @@ h1{
 
 /* waitlist typo suggestion — sits tighter than .micro since it belongs to
    the field above it, not to the section */
-.wl-hint{margin-top:10px;color:var(--ink);opacity:1}
+.wl-hint{margin-top:10px;color:var(--ink);opacity:1;text-align:center}
 .wl-hint-btn{
   font:inherit;color:var(--mint-deep);font-weight:600;background:none;
   border:0;padding:0;cursor:pointer;text-decoration:underline;
