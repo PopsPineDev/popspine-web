@@ -82,7 +82,11 @@ export function WaitForm({
   const defaultMsg = "No spam — build-log emails only. Unsubscribe whenever.";
   const msg =
     status === "sent"
-      ? "Check your inbox — first ledger goes out weekly."
+      ? // Covers both a first signup and a re-submit without revealing which.
+        // Saying "already registered" would leak who is on the list, and would
+        // turn away the person it hurts most: someone who signed up, never got
+        // the mail, and is trying again. beehiiv re-sends their confirmation.
+        "Check your inbox — if you’ve signed up before, I’ve re-sent the confirmation. Ledgers land weekly."
       : status === "joined"
         ? "Ledgers land in your inbox weekly. Nothing else to do."
         : status === "error"
