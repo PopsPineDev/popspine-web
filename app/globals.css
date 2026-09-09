@@ -1,6 +1,28 @@
 :root{
   --mint:#4FE0C4;
   --mint-deep:#12B79B;
+  /* --mint-deep and the red below are BRAND colours: correct for fills,
+     borders, dots and glows, where WCAG asks for 3:1 or nothing at all.
+     As *text* on this page's light glass they measure 2.24–2.52:1 against
+     4.5:1 required, so text gets its own token.
+
+     Both values were solved against the real composited backgrounds — every
+     translucent ancestor flattened, not assumed — for the worst case on the
+     page, which is the mint ✓ chip at rgb(215,248,241), not white. Solved
+     to 4.6 rather than 4.5 so antialiasing and a future background tweak
+     don't quietly put it back under. Darkening happens in linear-light
+     space, which holds the hue where a byte-wise scale would drift it grey.
+        --mint-text  4.60:1 on the ✓ chip, 5.15:1 on white cards
+        --red-text   4.62:1 on the ✕ chip, 5.44:1 on white cards */
+  --mint-text:#087B67;
+  --red-text:#B34448;
+  /* Gradient text (background-clip:text) is judged stop by stop: the ramp's
+     worst point is always its lightest stop, so clearing each stop clears
+     the whole ramp. Large text, so the bar is 3:1 — met at 3.15 for margin.
+     The violet end already passed at 3.21 and is left alone. */
+  --grad-a:#0E9B83;
+  --grad-b:#0C96B8;
+  --grad-c:#7C7BF0;
   --teal-ink:#0A3F3A;
   --aqua:#8CF0DE;
   --sky:#BEE9FF;
@@ -360,7 +382,7 @@ h1{
   margin:26px auto 0;max-width:14ch;
 }
 @media(max-width:700px){h1{margin-top:4px}}
-.grad{background:linear-gradient(115deg,var(--mint-deep) 0%,#0FA9CF 55%,#7C7BF0 100%);
+.grad{background:linear-gradient(115deg,var(--grad-a) 0%,var(--grad-b) 55%,var(--grad-c) 100%);
   -webkit-background-clip:text;background-clip:text;color:transparent}
 .pill-cta-handle{padding-right:.08em;margin-right:-.08em}
 .sub{margin:24px auto 0;max-width:56ch;font-size:clamp(16px,2vw,19.5px);line-height:1.6;color:var(--slate);font-weight:400}
@@ -377,10 +399,10 @@ h1{
 .wl-hint{margin-top:10px;color:var(--ink);opacity:1;text-align:center}
 /* submitted address, shown back as a receipt — reads as settled, not editable */
 .form input[readonly],.ann-form input[readonly],.form-hero input[readonly]{
-  color:var(--mint-deep);font-weight:600;cursor:default}
+  color:var(--mint-text);font-weight:600;cursor:default}
 .form input[readonly]:focus,.ann-form input[readonly]:focus{box-shadow:var(--shadow)}
 .wl-hint-btn{
-  font:inherit;color:var(--mint-deep);font-weight:600;background:none;
+  font:inherit;color:var(--mint-text);font-weight:600;background:none;
   border:0;padding:0;cursor:pointer;text-decoration:underline;
   text-underline-offset:3px;
 }
@@ -397,12 +419,12 @@ h1{
   transition:transform .45s cubic-bezier(.2,.8,.2,1),box-shadow .45s;
 }
 .node:hover{transform:translateY(-6px);box-shadow:var(--shadow-lg)}
-.node .idx{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--mint-deep);font-weight:600;letter-spacing:.08em}
-.node h4{font-size:15.5px;margin-top:9px;letter-spacing:-.02em}
+.node .idx{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--mint-text);font-weight:600;letter-spacing:.08em}
+.node h3{font-size:15.5px;margin-top:9px;letter-spacing:-.02em}
 .node p{font-size:14px;color:var(--slate);margin-top:5px;line-height:1.5}
 
 /* ---------- section headers ---------- */
-.eyebrow{font-family:'JetBrains Mono',monospace;font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:#0B8371;font-weight:600}
+.eyebrow{font-size:12.5px;font-weight:600;font-family:'JetBrains Mono',monospace;font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--mint-text);font-weight:600}
 h2{font-size:clamp(30px,4.2vw,46px);letter-spacing:-.035em;line-height:1.1;margin-top:14px;font-weight:800;max-width:18ch}
 .lede{margin-top:16px;max-width:60ch;font-size:17px;line-height:1.65;color:var(--slate)}
 
@@ -417,14 +439,14 @@ h2{font-size:clamp(30px,4.2vw,46px);letter-spacing:-.035em;line-height:1.1;margi
 }
 .sig{font-family:'JetBrains Mono',monospace;font-size:13.5px;line-height:1.85}
 .sig .k{color:var(--slate)}
-.sig .ok{color:var(--mint-deep);font-weight:600}
-.sig .no{color:#E0575C;font-weight:600}
+.sig .ok{color:var(--mint-text);font-weight:600}
+.sig .no{color:var(--red-text);font-weight:600}
 .sigbox{margin-top:20px;padding:20px;border-radius:18px;background:rgba(255,255,255,.72);border:1px solid rgba(255,255,255,.95)}
 .perm{display:flex;align-items:center;gap:11px;padding:11px 0;border-bottom:1px dashed rgba(10,63,58,.12);font-size:14px}
 .perm:last-child{border-bottom:0}
 .tick{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font-size:12px;flex:none;font-weight:700}
-.tick.y{background:rgba(79,224,196,.22);color:var(--mint-deep)}
-.tick.n{background:rgba(224,87,92,.14);color:#E0575C}
+.tick.y{background:rgba(79,224,196,.22);color:var(--mint-text)}
+.tick.n{background:rgba(224,87,92,.14);color:var(--red-text)}
 
 /* fake wallet button */
 .connect{
@@ -439,7 +461,7 @@ h2{font-size:clamp(30px,4.2vw,46px);letter-spacing:-.035em;line-height:1.1;margi
   -webkit-backdrop-filter:blur(34px) saturate(200%);border:1px solid var(--stroke);box-shadow:var(--shadow);
   transition:transform .45s cubic-bezier(.2,.8,.2,1),box-shadow .45s}
 .card:hover{transform:translateY(-7px);box-shadow:var(--shadow-lg)}
-.ico{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;color:var(--mint-deep);
+.ico{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;color:var(--mint-text);
   background:linear-gradient(135deg,rgba(79,224,196,.28),rgba(143,212,255,.35));border:1px solid rgba(255,255,255,.9)}
 .card h3{margin-top:16px;font-size:18.5px;letter-spacing:-.025em}
 .card p{margin-top:9px;font-size:14.5px;line-height:1.62;color:var(--slate)}
@@ -450,7 +472,7 @@ h2{font-size:clamp(30px,4.2vw,46px);letter-spacing:-.035em;line-height:1.1;margi
   border:1px solid var(--stroke);box-shadow:var(--shadow-lg)}
 .stats{margin-top:30px;display:grid;grid-template-columns:repeat(4,1fr);gap:22px}
 @media(max-width:820px){.stats{grid-template-columns:1fr 1fr}}
-.stat .n{font-size:38px;font-weight:800;letter-spacing:-.04em;background:linear-gradient(120deg,var(--mint-deep),#0FA9CF);
+.stat .n{font-size:38px;font-weight:800;letter-spacing:-.04em;background:linear-gradient(120deg,var(--grad-a),var(--grad-b));
   -webkit-background-clip:text;background-clip:text;color:transparent}
 .stat .l{font-size:14px;color:var(--slate);margin-top:4px}
 
@@ -464,14 +486,14 @@ h2{font-size:clamp(30px,4.2vw,46px);letter-spacing:-.035em;line-height:1.1;margi
   transition:box-shadow .3s,border-color .3s}
 .form input:focus{box-shadow:0 0 0 4px rgba(79,224,196,.28),var(--shadow)}
 footer{padding:58px 0 46px;color:var(--slate);font-size:14px}
-footer a{color:var(--mint-deep);text-decoration:none;font-weight:600}
+footer a{color:var(--mint-text);text-decoration:none;font-weight:600}
 .foot-grid{display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:36px;text-align:left}
 .foot-brand{display:flex;align-items:center;gap:4px;font-family:'Sora',sans-serif;font-style:italic;font-weight:800;font-size:16px;color:var(--ink);margin-bottom:10px}
-.foot-brand b{color:var(--mint-deep);margin-left:5px}
+.foot-brand b{color:var(--mint-text);margin-left:5px}
 .foot-col p{line-height:1.6;max-width:34ch}
-.foot-col h5{font-family:'JetBrains Mono',monospace;font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:#0B8371;margin:6px 0 12px}
+.foot-col h3{font-family:'JetBrains Mono',monospace;font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--mint-text);margin:6px 0 12px}
 .foot-col a{display:block;margin-bottom:8px;color:var(--slate);font-weight:500}
-.foot-col p a{display:inline;margin:0;color:var(--mint-deep);font-weight:600}
+.foot-col p a{display:inline;margin:0;color:var(--mint-text);font-weight:600}
 .foot-col a:hover{color:var(--teal-ink)}
 .foot-bottom{margin-top:38px;padding-top:20px;border-top:1px solid rgba(10,63,58,.14);font-size:13px;line-height:1.7;text-align:center}
 @media(max-width:760px){.foot-grid{grid-template-columns:1fr;gap:26px}}
@@ -484,13 +506,13 @@ footer a{color:var(--mint-deep);text-decoration:none;font-weight:600}
 .journey{margin-top:22px;display:grid;grid-template-columns:repeat(3,1fr);gap:14px;text-align:left}
 .jstep{padding:24px;border-radius:20px;background:var(--glass-strong);border:1px solid var(--stroke);box-shadow:var(--shadow)}
 .jnum{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:14.5px;color:#052E29;background:linear-gradient(135deg,var(--mint),var(--mint-deep));margin-bottom:12px}
-.jstep h4{font-size:16px;letter-spacing:-.02em;margin-bottom:8px}
+.jstep h3{font-size:16px;letter-spacing:-.02em;margin-bottom:8px}
 .jstep p{font-size:14.5px;line-height:1.55;color:var(--slate)}
 .jv-reqs{padding:18px 14px 8px;text-align:left;
   display:flex;flex-direction:column;gap:13px}
 .req-row{display:grid;grid-template-columns:150px 1fr;gap:16px;align-items:baseline}
 .req-k{font-family:'JetBrains Mono',monospace;font-size:12.5px;font-weight:700;
-  letter-spacing:.14em;text-transform:uppercase;color:var(--mint-deep);white-space:nowrap}
+  letter-spacing:.14em;text-transform:uppercase;color:var(--mint-text);white-space:nowrap}
 .req-v{font-size:15px;line-height:1.6;color:var(--ink);font-weight:500}
 .req-v b{font-weight:700;color:var(--teal-ink)}
 @media(max-width:700px){
@@ -511,11 +533,15 @@ footer a{color:var(--mint-deep);text-decoration:none;font-weight:600}
   object-fit:cover;border:0}
 .jv-cap{display:flex;flex-direction:column;align-items:center;gap:11px;
   padding:16px 0 18px}
-.jv-tag{position:relative;font-family:'JetBrains Mono',monospace;font-size:12.5px;
+.jv-tag{position:relative;font-family:'JetBrains Mono',monospace;font-size:12.5px;font-weight:400;
   letter-spacing:.18em;text-transform:uppercase;color:var(--mint)}
 /* Reads as a link because it acts like one; a button because it swaps a
    source rather than navigating. */
-.jv-hq{font:inherit;color:var(--mint);background:none;border:0;padding:0;
+/* WCAG 2.2 SC 2.5.8 wants 24x24 CSS px for a pointer target. Inline text
+   links are exempt, but this is a <button>, and it was 17px tall. Padding
+   rather than height so the underline still sits with the sentence. */
+.jv-hq{font:inherit;color:var(--mint);background:none;border:0;
+  padding:4px 2px;margin:-4px 0;min-height:24px;
   cursor:pointer;text-decoration:underline;text-underline-offset:2px;
   opacity:.85;transition:opacity .2s}
 .jv-hq:hover{opacity:1}
@@ -546,10 +572,10 @@ footer a{color:var(--mint-deep);text-decoration:none;font-weight:600}
 .faq-item summary{cursor:pointer;font-weight:700;font-size:16px;letter-spacing:-.015em;padding:16px 0;
   list-style:none;display:flex;align-items:center;justify-content:space-between;gap:14px}
 .faq-item summary::-webkit-details-marker{display:none}
-.faq-item summary::after{content:'+';flex:none;font-weight:600;font-size:20px;color:var(--mint-deep);transition:transform .3s}
+.faq-item summary::after{content:'+';flex:none;font-weight:600;font-size:20px;color:var(--mint-text);transition:transform .3s}
 .faq-item[open] summary::after{transform:rotate(45deg)}
 .faq-item p{padding:0 0 18px;font-size:14.5px;line-height:1.65;color:var(--slate)}
-.faq-item p a{color:var(--mint-deep);font-weight:600;text-decoration:underline;text-decoration-color:rgba(18,183,155,.4);text-underline-offset:3px}
+.faq-item p a{color:var(--mint-text);font-weight:600;text-decoration:underline;text-decoration-color:rgba(18,183,155,.4);text-underline-offset:3px}
 
 /* ---------- scroll reveal ---------- */
 /* Progressive enhancement: .rv is visible by default. Only browsers that run
@@ -603,7 +629,7 @@ html.js .navbar.nav-solid{
 /* ---------- Pine v6 template CTA pill ---------- */
 .pill-cta{margin-top:16px;text-decoration:none;cursor:pointer;border-color:rgba(79,224,196,.55);transition:transform .3s cubic-bezier(.2,.8,.2,1),box-shadow .3s}
 .pill-cta:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg)}
-.pill-cta-handle{font-family:'JetBrains Mono',monospace;color:var(--mint-deep);font-weight:600}
+.pill-cta-handle{font-family:'JetBrains Mono',monospace;color:var(--mint-text);font-weight:600}
 
 /* ---------- candlestick motif (hero backdrop, adapted from the X banner into
    the page's own mint/teal palette instead of importing its navy artwork) --- */

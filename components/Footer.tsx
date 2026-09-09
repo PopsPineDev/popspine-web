@@ -21,15 +21,16 @@ export function Footer() {
             </p>
           </div>
           <div className="foot-col">
-            <h5>Product</h5>
+            <h3>Product</h3>
             <a href="#how">How it works</a>
+            <a href="#demo">Demo</a>
             <a href="#proof">Proof</a>
             <a href="#why">Why it&rsquo;s different</a>
             <a href="#pricing">Pricing</a>
             <a href="#faq">FAQ</a>
           </div>
           <div className="foot-col">
-            <h5>Elsewhere</h5>
+            <h3>Elsewhere</h3>
             <a target="_blank" rel="noopener noreferrer" href="https://t.me/popspineledger">
               Live receipts (Telegram)
             </a>

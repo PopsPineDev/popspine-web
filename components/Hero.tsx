@@ -121,12 +121,12 @@ export function Hero() {
         </div>
 
         <div id="how" className="stage-label rv">
-          <div className="eyebrow">What you actually do</div>
+          <h2 className="eyebrow">What you actually do</h2>
         </div>
         <div className="journey">
           <div className="jstep rv">
             <div className="jnum">1</div>
-            <h4>Paste the alert template into your strategy.</h4>
+            <h3>Paste the alert template into your strategy.</h3>
             <p>
               Any Pine Script v6 strategy works — the template drops into your
               alert message and fills itself from your entries and exits.
@@ -134,7 +134,7 @@ export function Hero() {
           </div>
           <div className="jstep rv d1">
             <div className="jnum">2</div>
-            <h4>Connect a trade-only agent wallet.</h4>
+            <h3>Connect a trade-only agent wallet.</h3>
             <p>
               One signature, scoped to trading only, revocable by you at any
               time. Your private key never leaves your wallet.
@@ -142,7 +142,7 @@ export function Hero() {
           </div>
           <div className="jstep rv d2">
             <div className="jnum">3</div>
-            <h4>That&rsquo;s it. Signals execute 24/7.</h4>
+            <h3>That&rsquo;s it. Signals execute 24/7.</h3>
             <p>
               Every entry, exit, and stop lands on Hyperliquid whether
               you&rsquo;re at the screen or asleep — with the receipt on your
@@ -154,12 +154,12 @@ export function Hero() {
         <JVideo />
 
         <div className="stage-label rv">
-          <div className="eyebrow">Under the hood</div>
+          <h2 className="eyebrow">Under the hood</h2>
         </div>
         <div className="flow">
           <div className="node rv">
             <div className="idx">01</div>
-            <h4>Pine Script v6</h4>
+            <h3>Pine Script v6</h3>
             <p>
               Your strategy decides. Deterministic, backtestable, no AI in the
               live path.
@@ -167,7 +167,7 @@ export function Hero() {
           </div>
           <div className="node rv d1">
             <div className="idx">02</div>
-            <h4>Authenticated webhook</h4>
+            <h3>Authenticated webhook</h3>
             <p>
               Every alert carries a signal id, a timestamp, and a shared secret
               compared in constant time. Duplicates and stale signals die at
@@ -176,7 +176,7 @@ export function Hero() {
           </div>
           <div className="node rv d2">
             <div className="idx">03</div>
-            <h4>Execution layer</h4>
+            <h3>Execution layer</h3>
             <p>
               Validated, deduped, freshness-checked, ownership-guarded — then
               executed. Exits and stop-moves are exempt from the freshness gate
@@ -187,7 +187,7 @@ export function Hero() {
           </div>
           <div className="node rv d3">
             <div className="idx">04</div>
-            <h4>On-exchange safety</h4>
+            <h3>On-exchange safety</h3>
             <p>
               SL and TP placed as real orders at entry. They survive the server
               dying.

@@ -57,6 +57,10 @@ export function JVideo() {
   return (
     <div className="jvideo rv d1" id="demo">
       <div className="jv-shell">
+        {/* aria-label: without it a screen reader announces this as a bare
+            "video". The name carries what a sighted viewer gets free from
+            the caption — what it shows, how long it runs, and that it is
+            testnet, the last of which is a claim rather than decoration. */}
         <video
           ref={ref}
           className="jv-video"
@@ -65,10 +69,11 @@ export function JVideo() {
           preload="none"
           controls
           playsInline
+          aria-label="PopsPineDev demo — paste, sign, fill (8:13, filmed on Hyperliquid testnet)"
           onPlay={() => track("demo_play")}
         />
         <div className="jv-cap">
-          <div className="jv-tag">demo &middot; paste &middot; sign &middot; fill</div>
+          <h2 className="jv-tag">demo &middot; paste &middot; sign &middot; fill</h2>
           <div className="jv-line">
             Three steps, filmed on testnet: paste the alert template into a Pine
             strategy &middot; connect a wallet and read the{" "}

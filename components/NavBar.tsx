@@ -136,7 +136,7 @@ export function NavBar() {
         <WaitForm className="ann-form" />
       </div>
 
-      <nav>
+      <nav aria-label="Main">
         <div className="navbar" ref={navbarRef}>
           <button
             className="nav-burger"
@@ -147,6 +147,7 @@ export function NavBar() {
             onClick={() => setDrawerOpen((o) => !o)}
           >
             <svg
+              aria-hidden="true"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
@@ -250,7 +251,7 @@ export function NavBar() {
         {/* Same list as the pill nav, mapped rather than hand-copied — the
             two drifting apart is exactly how a section ends up reachable on
             desktop and invisible on a phone. */}
-        <nav className="drawer-links" onClick={() => setDrawerOpen(false)}>
+        <nav aria-label="Menu" className="drawer-links" onClick={() => setDrawerOpen(false)}>
           {LINKS.map((l) => (
             <a key={l.href} href={l.href}>
               {l.label}

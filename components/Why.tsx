@@ -13,7 +13,7 @@ export function Why() {
         </div>
         <div className="cards">
           <div className="card rv">
-            <div className="ico">
+            <div className="ico" aria-hidden="true">
               <svg
                 viewBox="0 0 24 24"
                 fill="none"
@@ -34,7 +34,7 @@ export function Why() {
             </p>
           </div>
           <div className="card rv d1">
-            <div className="ico">
+            <div className="ico" aria-hidden="true">
               <svg
                 viewBox="0 0 24 24"
                 fill="none"
@@ -59,7 +59,7 @@ export function Why() {
             </p>
           </div>
           <div className="card rv d2">
-            <div className="ico">
+            <div className="ico" aria-hidden="true">
               <svg
                 viewBox="0 0 24 24"
                 fill="none"
@@ -82,7 +82,7 @@ export function Why() {
             </p>
           </div>
           <div className="card rv d3">
-            <div className="ico">
+            <div className="ico" aria-hidden="true">
               <svg
                 viewBox="0 0 24 24"
                 fill="none"
