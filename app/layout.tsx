@@ -6,6 +6,12 @@ const title = "PopsPineDev Automation";
 const description =
   "TradingView alerts fire straight into Hyperliquid through a non-custodial, trade-only agent wallet. Your private key never leaves your wallet — verify it yourself on testnet.";
 
+// Demo media, served from R2 behind our own subdomain. Absolute URLs are
+// required here — a share card is rendered by someone else's crawler.
+const MEDIA = "https://media.popspine.com/r2-upload";
+const POSTER = `${MEDIA}/popspine-demo-poster-v8.jpg`;
+const DEMO_MP4 = `${MEDIA}/popspine-demo-v8.mp4`;
+
 // Hex-bars mark, same artwork as the nav logo — served as an SVG data URI so
 // the favicon needs no extra network request.
 const FAVICON =
@@ -30,12 +36,24 @@ export const metadata: Metadata = {
     url: "https://popspine.com",
     siteName: "PopsPineDev Automation",
     type: "website",
+    images: [
+      {
+        url: POSTER,
+        width: 1920,
+        height: 1080,
+        alt: "PopsPineDev Automation — your strategy, executed. Never your private key.",
+      },
+    ],
+    // 1080p here on purpose: the platforms that inline a video player fetch
+    // it themselves, and a share card is the one place worth the bytes.
+    videos: [{ url: DEMO_MP4, width: 1920, height: 1080, type: "video/mp4" }],
   },
   twitter: {
     card: "summary_large_image",
     title,
     description,
     creator: "@popspinedev",
+    images: [POSTER],
   },
 };
 
@@ -57,6 +75,10 @@ export default function RootLayout({
               "document.documentElement.classList.add('js');document.documentElement.setAttribute('data-variant','spring');",
           }}
         />
+        {/* The poster is the first byte fetched from this host and it sits
+            below the fold — warming the connection early makes the frame
+            appear on scroll rather than after it. */}
+        <link rel="preconnect" href="https://media.popspine.com" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
           rel="preconnect"

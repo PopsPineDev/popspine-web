@@ -495,24 +495,23 @@ footer a{color:var(--mint-deep);text-decoration:none;font-weight:600}
 /* ---------- demo video slot ---------- */
 .jvideo{margin:26px auto 0;max-width:860px;padding:14px;border-radius:28px;
   background:var(--glass-strong);border:1px solid var(--stroke);box-shadow:var(--shadow)}
-.jvideo-poster{position:relative;aspect-ratio:16/9;border-radius:16px;overflow:hidden;
-  background:linear-gradient(155deg,#0C312C 0%,#06201D 55%,#041614 100%);
-  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px}
-.jv-grid{position:absolute;inset:0;opacity:.15;pointer-events:none;
-  background-image:linear-gradient(rgba(79,224,196,.4) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(79,224,196,.4) 1px,transparent 1px);
-  background-size:44px 44px;
-  mask-image:radial-gradient(ellipse at 50% 42%,#000 28%,transparent 76%);
-  -webkit-mask-image:radial-gradient(ellipse at 50% 42%,#000 28%,transparent 76%)}
+/* The video and its caption share one dark rounded box, so the mint/white
+   caption type keeps the contrast it was designed for. */
+.jv-shell{border-radius:16px;overflow:hidden;
+  background:linear-gradient(155deg,#0C312C 0%,#06201D 55%,#041614 100%)}
+.jv-video{display:block;width:100%;aspect-ratio:16/9;background:#041614;
+  object-fit:cover;border:0}
+.jv-cap{display:flex;flex-direction:column;align-items:center;gap:11px;
+  padding:16px 0 18px}
 .jv-tag{position:relative;font-family:'JetBrains Mono',monospace;font-size:12.5px;
   letter-spacing:.18em;text-transform:uppercase;color:var(--mint)}
-.jv-play{position:relative;width:74px;height:74px;border-radius:50%;cursor:pointer;padding:0;
-  border:1px solid rgba(255,255,255,.28);background:rgba(255,255,255,.1);color:#fff;
-  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
-  display:flex;align-items:center;justify-content:center;
-  transition:transform .35s cubic-bezier(.22,1,.36,1),background-color .3s}
-.jv-play:hover{transform:scale(1.07);background:rgba(255,255,255,.17)}
-.jv-play svg{width:26px;height:26px;margin-left:3px;display:block}
+/* Reads as a link because it acts like one; a button because it swaps a
+   source rather than navigating. */
+.jv-hq{font:inherit;color:var(--mint);background:none;border:0;padding:0;
+  cursor:pointer;text-decoration:underline;text-underline-offset:2px;
+  opacity:.85;transition:opacity .2s}
+.jv-hq:hover{opacity:1}
+.jv-hq-on{opacity:.55}
 .jv-line{position:relative;font-size:14.5px;color:rgba(255,255,255,.85);
   max-width:42ch;text-align:center;padding:0 20px;line-height:1.5;text-wrap:balance}
 .jv-status{position:relative;text-align:center;
@@ -520,9 +519,8 @@ footer a{color:var(--mint-deep);text-decoration:none;font-weight:600}
   min-height:17px;padding:0 20px;max-width:52ch;line-height:1.5}
 @media(max-width:700px){
   .jvideo{margin-top:20px;padding:10px;border-radius:22px}
-  .jvideo-poster{border-radius:13px;gap:11px}
-  .jv-play{width:58px;height:58px}
-  .jv-play svg{width:21px;height:21px}
+  .jv-shell{border-radius:13px}
+  .jv-cap{gap:10px;padding:13px 0 15px}
   .jv-line{font-size:13px;max-width:34ch}
   .jv-status{font-size:11.5px}
 }
