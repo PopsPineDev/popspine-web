@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import {
   isJoined,
   saveJoined,
-  isPending,
+  pendingEmail,
   markPending,
   JOINED_EVENT,
   PENDING_EVENT,
@@ -57,8 +57,17 @@ export function WaitForm({
       saveJoined();
     }
     const check = () => {
-      if (isJoined()) setStatus("joined");
-      else if (isPending()) setStatus((s) => (s === "idle" ? "sent" : s));
+      if (isJoined()) {
+        setStatus("joined");
+        return;
+      }
+      // Every form shows the same address back, and it survives a reload
+      // within the visit — the receipt is the point.
+      const pending = pendingEmail();
+      if (pending) {
+        setEmail(pending);
+        setStatus((s) => (s === "idle" ? "sent" : s));
+      }
     };
     check();
     window.addEventListener(JOINED_EVENT, check);
@@ -168,11 +177,14 @@ export function WaitForm({
         return;
       }
       setStatus("sent");
-      setEmail("");
       setHint(null);
       setReason(null);
-      // Pending for this visit only — confirmation is what makes it real.
-      markPending();
+      // Keep the address in the field as a receipt — the person can see
+      // exactly where it went, and a typo is far easier to catch read back
+      // than recalled. Pending for this visit only; confirmation is what
+      // makes it real.
+      setEmail(value);
+      markPending(value);
     } catch {
       fail("Something went wrong — try again, or DM @PopsPineDev.");
     }
@@ -188,6 +200,9 @@ export function WaitForm({
             required
             aria-label="Email address"
             value={email}
+            // Once submitted the field is a receipt, not an input — kept
+            // readable rather than disabled so the address stays legible.
+            readOnly={status === "sent"}
             onChange={(e) => onEmailChange(e.target.value)}
             onBlur={() => {
               if (!hintShown && email.trim()) {

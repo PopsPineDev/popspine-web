@@ -40,20 +40,32 @@ export function isJoined(): boolean {
   }
 }
 
-/** Submitted, awaiting confirmation. This visit only. */
-export function markPending() {
+/**
+ * Submitted, awaiting confirmation. This visit only.
+ *
+ * Stores the address itself, not just a flag, so every form can show it
+ * back to the person — "you're on the list" means more when it names the
+ * address it went to, and a mistyped one is easier to spot read back than
+ * remembered. Session-scoped and same-origin; it never leaves the tab.
+ */
+export function markPending(email: string) {
   try {
-    sessionStorage.setItem(PENDING_KEY, String(Date.now()));
+    sessionStorage.setItem(PENDING_KEY, email);
   } catch {
     /* storage unavailable — the in-page event still syncs the forms */
   }
   window.dispatchEvent(new Event(PENDING_EVENT));
 }
 
-export function isPending(): boolean {
+/** The address submitted this visit, or null. */
+export function pendingEmail(): string | null {
   try {
-    return sessionStorage.getItem(PENDING_KEY) !== null;
+    return sessionStorage.getItem(PENDING_KEY);
   } catch {
-    return false;
+    return null;
   }
+}
+
+export function isPending(): boolean {
+  return pendingEmail() !== null;
 }

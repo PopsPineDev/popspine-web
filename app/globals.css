@@ -365,6 +365,10 @@ h1{
 /* waitlist typo suggestion — sits tighter than .micro since it belongs to
    the field above it, not to the section */
 .wl-hint{margin-top:10px;color:var(--ink);opacity:1;text-align:center}
+/* submitted address, shown back as a receipt — reads as settled, not editable */
+.form input[readonly],.ann-form input[readonly],.form-hero input[readonly]{
+  color:var(--mint-deep);font-weight:600;cursor:default}
+.form input[readonly]:focus,.ann-form input[readonly]:focus{box-shadow:var(--shadow)}
 .wl-hint-btn{
   font:inherit;color:var(--mint-deep);font-weight:600;background:none;
   border:0;padding:0;cursor:pointer;text-decoration:underline;

@@ -27,12 +27,25 @@ export const runtime = "nodejs";
 const DNS_TIMEOUT_MS = 3000;
 
 /**
- * true  — the domain has somewhere to deliver mail
- * false — it definitively does not (NXDOMAIN, or no MX and no A record)
+ * true  — the domain publishes MX records
+ * false — it does not (no MX, or the domain doesn't resolve at all)
  * null  — we couldn't find out (timeout, SERVFAIL)
  *
  * Fails OPEN on null: a DNS blip must never cost a real signup. Only a
- * definitive "this domain cannot receive mail" rejects.
+ * definitive "no mail exchanger" rejects.
+ *
+ * MX is REQUIRED, deliberately. RFC 5321 allows falling back to the A
+ * record when no MX exists, and an earlier version honoured that — but
+ * parked and squatted domains almost always have an A record and no MX,
+ * so the fallback let asdfghjkl.com through. Requiring MX turns those into
+ * a clear "that domain can't receive email" instead of a signup the person
+ * believes worked. The cost, accepted knowingly: a domain that really does
+ * receive mail on its A record alone is now refused. That setup is rare,
+ * and the footer carries a contact address.
+ *
+ * Note what this cannot do: gmil.com publishes a live MX (a typosquatter
+ * that collects mail), so no DNS check will ever flag it. The typo
+ * suggester is what catches that class, which is why both layers exist.
  */
 async function domainAcceptsMail(domain: string): Promise<boolean | null> {
   let timer: ReturnType<typeof setTimeout> | undefined;
@@ -43,18 +56,13 @@ async function domainAcceptsMail(domain: string): Promise<boolean | null> {
   const lookup = (async (): Promise<boolean | null> => {
     try {
       const mx = await dns.resolveMx(domain);
-      if (mx.length > 0) return true;
+      return mx.length > 0;
     } catch (e) {
       const code = (e as NodeJS.ErrnoException).code;
-      if (code !== "ENOTFOUND" && code !== "ENODATA") return null; // transient
-    }
-    // No MX. RFC 5321 falls back to the A record, so a domain can still
-    // receive mail without one — check before rejecting.
-    try {
-      const a = await dns.resolve4(domain);
-      return a.length > 0;
-    } catch {
-      return false;
+      // ENOTFOUND = no such domain, ENODATA = domain exists, no MX. Both
+      // are definitive. Anything else is transient — fail open.
+      if (code === "ENOTFOUND" || code === "ENODATA") return false;
+      return null;
     }
   })();
 
@@ -113,6 +121,18 @@ export async function POST(req: Request) {
     // Don't leak upstream details to the browser; log server-side only.
     console.error("beehiiv subscribe failed", r.status, await r.text());
     return NextResponse.json({ error: "subscribe_failed" }, { status: 502 });
+  }
+
+  // beehiiv accepts, then reports its own state (validating / pending /
+  // active). A subscriber sitting in validating or pending won't appear in
+  // the default Active view, which reads as "nothing arrived" — log the
+  // status so that question is answerable from the server logs instead of
+  // guessed at from the dashboard.
+  try {
+    const { data } = (await r.json()) as { data?: { status?: string } };
+    console.log("beehiiv subscribe ok", { domain, status: data?.status });
+  } catch {
+    /* body isn't required — the 2xx is what matters */
   }
 
   return NextResponse.json({ ok: true });
