@@ -187,7 +187,12 @@ html.js .navbar.nav-solid .wordmark-desc{color:rgba(10,63,58,.71)}
   background:rgba(10,63,58,.05);border:1px solid rgba(10,63,58,.07);
   transition:background-color .5s ease,border-color .5s ease;
 }
-html.js .navbar:not(.nav-solid) .nav-links{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.12)}
+/* The track used to be a white wash on the dark pill, which lightened the
+   ground under the links to the point that even pure white text topped out
+   at 4.26:1 — no text colour could pass. Inverted to a dark inset, matching
+   what the light state already does with rgba(10,63,58,.05). Links land at
+   5.39:1. The hairline border stays white; it is decoration, not text. */
+html.js .navbar:not(.nav-solid) .nav-links{background:rgba(0,0,0,.10);border-color:rgba(255,255,255,.12)}
 .nav-links a{
   /* Not --slate: on the light pill that lands at 4.44:1, just under AA.
      A nav-local ink rather than a token change, so body copy elsewhere —
