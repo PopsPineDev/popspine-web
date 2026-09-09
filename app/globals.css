@@ -421,6 +421,9 @@ h1{
 /* ---------- flow strip ---------- */
 .flow{margin-top:70px;display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
 @media(max-width:860px){.flow{grid-template-columns:1fr 1fr}}
+/* 1.4.10 asks for no horizontal scrolling at a 320px viewport. Two columns
+   of this density overflow there — measured in a 320px frame, not guessed. */
+@media(max-width:430px){.flow{grid-template-columns:1fr}}
 .node{
   position:relative;padding:22px 18px;border-radius:20px;text-align:left;
   background:var(--glass);backdrop-filter:blur(32px) saturate(195%);
@@ -482,6 +485,13 @@ h2{font-size:clamp(30px,4.2vw,46px);letter-spacing:-.035em;line-height:1.1;margi
   border:1px solid var(--stroke);box-shadow:var(--shadow-lg)}
 .stats{margin-top:30px;display:grid;grid-template-columns:repeat(4,1fr);gap:22px}
 @media(max-width:820px){.stats{grid-template-columns:1fr 1fr}}
+@media(max-width:430px){.stats{grid-template-columns:1fr}}
+/* A grid item's default min-width:auto means one long unbreakable word can
+   push a track wider than its share and blow the row out sideways. These
+   four grids hold headings and mono strings, which is exactly where that
+   happens. */
+.flow>*,.stats>*,.journey>*,.cards>*{min-width:0}
+.stat .n,.stat .l,.node h3,.jstep h3{overflow-wrap:anywhere}
 .stat .n{font-size:38px;font-weight:800;letter-spacing:-.04em;background:linear-gradient(120deg,var(--grad-a),var(--grad-b));
   -webkit-background-clip:text;background-clip:text;color:transparent}
 .stat .l{font-size:14px;color:var(--slate);margin-top:4px}
