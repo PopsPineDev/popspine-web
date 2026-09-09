@@ -4,10 +4,15 @@ import { useEffect, useRef, useState } from "react";
 import { useVerified } from "@/lib/useVerified";
 import { WaitForm } from "./WaitForm";
 
+// Order follows the page, not preference. The sliding indicator tracks the
+// last section you've scrolled past, so a nav whose order disagrees with the
+// document's makes it jump backwards — #demo sits inside How It Works and
+// ahead of #proof, so it goes second.
 const LINKS = [
   { href: "#how", label: "How It Works" },
+  { href: "#demo", label: "Demo" },
   { href: "#proof", label: "Proof" },
-  { href: "#why", label: "Why It's Different" },
+  { href: "#why", label: "Why It’s Different" },
   { href: "#pricing", label: "Pricing" },
   { href: "#faq", label: "FAQ" },
 ];
@@ -242,12 +247,15 @@ export function NavBar() {
             &#10005;
           </button>
         </div>
+        {/* Same list as the pill nav, mapped rather than hand-copied — the
+            two drifting apart is exactly how a section ends up reachable on
+            desktop and invisible on a phone. */}
         <nav className="drawer-links" onClick={() => setDrawerOpen(false)}>
-          <a href="#how">How It Works</a>
-          <a href="#proof">Proof</a>
-          <a href="#why">Why It&rsquo;s Different</a>
-          <a href="#pricing">Pricing</a>
-          <a href="#faq">FAQ</a>
+          {LINKS.map((l) => (
+            <a key={l.href} href={l.href}>
+              {l.label}
+            </a>
+          ))}
         </nav>
         <a
           className={`btn drawer-cta${verified ? " btn-done" : ""}`}
