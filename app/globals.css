@@ -362,6 +362,16 @@ h1{
 .cta-row{margin-top:32px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
 .micro{margin-top:18px;font-size:14px;color:var(--slate);opacity:.9}
 
+/* waitlist typo suggestion — sits tighter than .micro since it belongs to
+   the field above it, not to the section */
+.wl-hint{margin-top:10px;color:var(--ink);opacity:1}
+.wl-hint-btn{
+  font:inherit;color:var(--mint-deep);font-weight:600;background:none;
+  border:0;padding:0;cursor:pointer;text-decoration:underline;
+  text-underline-offset:3px;
+}
+.wl-hint-btn:hover{opacity:.8}
+
 /* ---------- flow strip ---------- */
 .flow{margin-top:70px;display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
 @media(max-width:860px){.flow{grid-template-columns:1fr 1fr}}
