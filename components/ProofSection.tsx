@@ -5,6 +5,7 @@ import { useAccount, useWalletClient } from "wagmi";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { approveAgentOnTestnet } from "@/lib/hyperliquid";
 import { isVerified, saveVerified } from "@/lib/verified";
+import { track } from "@/lib/track";
 import { WaitForm } from "./WaitForm";
 
 const AGENT_ADDRESS = (process.env.NEXT_PUBLIC_AGENT_ADDRESS ||
@@ -38,10 +39,12 @@ export function ProofSection() {
     if (!walletClient) return;
     setState("signing");
     setErrorMsg("");
+    track("proof_sign_request");
     try {
       await approveAgentOnTestnet(walletClient, AGENT_ADDRESS);
       if (address) saveVerified(address);
       setState("success");
+      track("proof_verified");
     } catch (e) {
       const msg = e instanceof Error ? e.message : String(e);
       // Hyperliquid refuses approveAgent for accounts that have never
@@ -50,6 +53,7 @@ export function ProofSection() {
       // it into the actual fix (the free mock-USDC faucet).
       if (/must deposit/i.test(msg)) {
         setState("needs-faucet");
+        track("proof_faucet");
         return;
       }
       // "Extra agent already used" = this wallet ALREADY approved the agent
@@ -59,10 +63,12 @@ export function ProofSection() {
       if (/already used/i.test(msg)) {
         if (address) saveVerified(address);
         setState("success");
+        track("proof_verified");
         return;
       }
       setErrorMsg(msg);
       setState("error");
+      track("proof_error");
     }
   }
 
@@ -203,7 +209,10 @@ export function ProofSection() {
                   <>
                     <button
                       className="btn connect"
-                      onClick={openConnectModal}
+                      onClick={() => {
+                        track("proof_connect_click");
+                        openConnectModal?.();
+                      }}
                       disabled={!mounted}
                     >
                       Connect wallet &amp; read the request

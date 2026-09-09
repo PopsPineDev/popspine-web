@@ -67,6 +67,16 @@ export default function RootLayout({
           href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"
           rel="stylesheet"
         />
+        {/* Self-hosted Umami — no cookies, no fingerprinting, no cross-site
+            identifiers, so no consent banner is required. Served from our own
+            subdomain, which also means the blockers that strip plausible.io
+            and cdn.usefathom.com don't strip this. Deferred: it must never
+            delay first paint. */}
+        <script
+          defer
+          src="https://analytics.popspine.com/script.js"
+          data-website-id="7699a7f4-7c3a-4609-a8c2-44733fef9e1a"
+        />
       </head>
       <body>
         <Providers>{children}</Providers>

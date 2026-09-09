@@ -10,6 +10,7 @@ import {
   PENDING_EVENT,
 } from "@/lib/joined";
 import { suggestEmail, isValidEmail } from "@/lib/email";
+import { track } from "@/lib/track";
 
 const ENDPOINT = process.env.NEXT_PUBLIC_WAITLIST_ENDPOINT || "";
 
@@ -131,6 +132,7 @@ export function WaitForm({
     // Format first — a malformed address never reaches the network.
     if (!isValidEmail(value)) {
       fail("That isn’t a complete address — check the @ and the ending.");
+      track("waitlist_reject_format");
       return;
     }
 
@@ -141,6 +143,7 @@ export function WaitForm({
       if (suggestion && suggestion !== value) {
         setHint(suggestion);
         setHintShown(true);
+        track("waitlist_typo_hint");
         return;
       }
       setHintShown(true);
@@ -169,6 +172,7 @@ export function WaitForm({
         }
         if (code === "no_mx") {
           fail("That domain can’t receive email — check the spelling.");
+          track("waitlist_reject_no_mx");
         } else if (code === "invalid_format") {
           fail("That isn’t a complete address — check the @ and the ending.");
         } else {
@@ -185,6 +189,7 @@ export function WaitForm({
       // makes it real.
       setEmail(value);
       markPending(value);
+      track("waitlist_submit");
     } catch {
       fail("Something went wrong — try again, or DM @PopsPineDev.");
     }
