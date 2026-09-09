@@ -19,7 +19,7 @@ export default function Home() {
       </div>
       <div className="grain"></div>
       <NavBar />
-      <main>
+      <main id="top">
         <Hero />
         <ProofSection />
         <Why />

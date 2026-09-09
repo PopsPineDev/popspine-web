@@ -153,7 +153,11 @@ export function NavBar() {
               <line x1="4" y1="17" x2="20" y2="17" />
             </svg>
           </button>
-          <div className="brand">
+          {/* Home link — a wordmark that isn't clickable is a small
+              broken expectation on every site. Anchors to the top rather
+              than reloading, so the page state (verified wallet, pending
+              signup) survives the click. */}
+          <a className="brand" href="#top" aria-label="PopsPineDev Automation — back to top">
             <span className="brand-mark">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
@@ -189,7 +193,7 @@ export function NavBar() {
                 <rect x="18.8" y="9.25" width="3.2" height="13.5" rx="1.3" fill="#4FC3F7" />
               </svg>
             </span>
-          </div>
+          </a>
           <div className="nav-links" ref={navLinksRef}>
             <span className="nav-ind" aria-hidden="true" ref={indRef}></span>
             {LINKS.map((l) => (

@@ -107,7 +107,9 @@ html.js .navbar:not(.nav-solid){
   box-shadow:0 12px 36px -16px rgba(6,40,36,.7);
   color:#fff;
 }
-.brand{display:flex;align-items:center;gap:11px;font-weight:700;letter-spacing:-.02em}
+.brand{display:flex;align-items:center;gap:11px;font-weight:700;letter-spacing:-.02em;
+  text-decoration:none;color:inherit;cursor:pointer}
+.brand:hover{opacity:.88}
 .lockup{display:flex;flex-direction:column;line-height:1;min-width:0}
 .wordmark{font-family:'Sora',system-ui,sans-serif;font-style:italic;font-weight:800;
   font-size:21px;letter-spacing:-.015em;white-space:nowrap;
