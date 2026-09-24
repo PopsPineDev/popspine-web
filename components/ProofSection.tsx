@@ -250,7 +250,7 @@ export function ProofSection() {
               <br />
               &nbsp;&nbsp;&quot;side_intent&quot;: <span className="ok">&quot;entry&quot;</span>,
               <br />
-              &nbsp;&nbsp;&quot;qty_pct&quot;: <span className="ok">25</span>,
+              &nbsp;&nbsp;&quot;qty_pct&quot;: <span className="ok">5</span>,
               <br />
               &nbsp;&nbsp;&quot;leverage&quot;: <span className="ok">3</span>,
               <br />
