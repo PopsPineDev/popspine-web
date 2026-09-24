@@ -5,22 +5,22 @@ export function Pricing() {
         <div className="band rv">
           <div className="eyebrow">Honest money</div>
           <h2 style={{ maxWidth: "22ch" }}>
-            I only get paid when your strategy actually trades.
+            I&rsquo;ll only get paid when your strategy actually trades.
           </h2>
           <p className="lede">
-            Revenue comes from Hyperliquid builder codes — a native 0.01% fee
+            Nothing is charged today. Revenue will come from Hyperliquid builder codes — a native fee
             on executed volume, approved once by you, capped by the exchange,
             and revocable the same way the agent wallet is. No funds ever
             route through me: it&rsquo;s fee attribution by the exchange, not
             a payment I collect. If the bot never trades, I never earn.
-            Execution stays pay-per-fill. If I ever offer something beyond
+            Execution will be pay-per-fill. If I ever offer something beyond
             execution — strategy rental, say — it&rsquo;ll be priced on its own
             and announced in the ledger before it exists anywhere else.
           </p>
           <div className="stats">
             <div className="stat rv d1">
               <div className="n">Pay-per-fill</div>
-              <div className="l">How I get paid</div>
+              <div className="l">How I&rsquo;ll get paid</div>
             </div>
             <div className="stat rv d2">
               <div className="n">Trade-only</div>
@@ -31,8 +31,8 @@ export function Pricing() {
               <div className="l">Current phase — zero live capital</div>
             </div>
             <div className="stat rv d4">
-              <div className="n">0.01%</div>
-              <div className="l">Fee per executed fill, capped by the fee you sign</div>
+              <div className="n">$0</div>
+              <div className="l">Charged to date — builder codes not yet enabled</div>
             </div>
           </div>
         </div>
