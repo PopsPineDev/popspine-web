@@ -4,8 +4,8 @@ import { useRef, useState } from "react";
 import { track } from "@/lib/track";
 
 const MEDIA = "https://media.popspine.com/r2-upload";
-const SRC_720 = `${MEDIA}/popspine-demo-v11-720p.mp4`;
-const SRC_1080 = `${MEDIA}/popspine-demo-v11.mp4`;
+const SRC_720 = `${MEDIA}/popspine-demo-v12-720p.mp4`;
+const SRC_1080 = `${MEDIA}/popspine-demo-v12.mp4`;
 const POSTER = `${MEDIA}/popspine-demo-poster-v8.jpg`;
 
 /**
@@ -69,7 +69,7 @@ export function JVideo() {
           preload="none"
           controls
           playsInline
-          aria-label="PopsPineDev demo — paste, sign, fill (8:10, filmed on Hyperliquid testnet)"
+          aria-label="PopsPineDev demo — paste, sign, fill (8:25, filmed on Hyperliquid testnet)"
           onPlay={() => track("demo_play")}
         />
         <div className="jv-cap">
@@ -81,7 +81,7 @@ export function JVideo() {
             real signal fill on Hyperliquid and the receipt land in Telegram.
           </div>
           <div className="jv-status" id="jv-status" aria-live="polite">
-            8:10 &middot; filmed end to end on Hyperliquid testnet &middot;{" "}
+            8:25 &middot; filmed end to end on Hyperliquid testnet &middot;{" "}
             {hq ? (
               <span className="jv-hq-on">full quality (1080p)</span>
             ) : (
@@ -121,7 +121,7 @@ export function JVideo() {
               "A full walkthrough on Hyperliquid testnet: pasting the alert template into a Pine strategy, reading the approveAgent permission before signing, and watching a signal fill with the receipt landing in Telegram.",
             thumbnailUrl: [POSTER],
             uploadDate: "2026-09-25",
-            duration: "PT8M10S",
+            duration: "PT8M25S",
             contentUrl: SRC_1080,
             embedUrl: "https://popspine.com/#demo",
             publisher: {

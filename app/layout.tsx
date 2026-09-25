@@ -10,7 +10,7 @@ const description =
 // required here — a share card is rendered by someone else's crawler.
 const MEDIA = "https://media.popspine.com/r2-upload";
 const POSTER = `${MEDIA}/popspine-demo-poster-v8.jpg`;
-const DEMO_MP4 = `${MEDIA}/popspine-demo-v11.mp4`;
+const DEMO_MP4 = `${MEDIA}/popspine-demo-v12.mp4`;
 
 // Hex-bars mark, same artwork as the nav logo — served as an SVG data URI so
 // the favicon needs no extra network request.
