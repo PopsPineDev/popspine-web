@@ -34,6 +34,17 @@ const ITEMS: { q: string; a: React.ReactNode }[] = [
     ),
   },
   {
+    q: "Does the agent approval expire?",
+    a: (
+      <p>
+        Yes. Hyperliquid agent approvals carry a validity period of up to
+        180 days. Once it lapses, the agent can&rsquo;t place new orders on
+        your account until you renew. Renewing is the same one-signature step
+        in your browser: no private key, no deposit.
+      </p>
+    ),
+  },
+  {
     q: "Which TradingView plan do I need?",
     a: (
       <p>
