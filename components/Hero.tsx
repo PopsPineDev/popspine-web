@@ -38,38 +38,37 @@ export function Hero() {
               <li>
                 <Ck />
                 <span>
-                  Your private key <a href="#proof">never leaves your wallet</a>.
+                  Your strategy stays where you built it.{" "}
+                  <a href="#how">The alert is the signal</a>; we carry it to
+                  the fill.
                 </span>
               </li>
               <li>
                 <Ck />
                 <span>
-                  Trade-only agent wallet,{" "}
+                  Every fill, exit and refusal{" "}
+                  <a
+                    href="https://t.me/popspineledger"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    leaves a receipt
+                  </a>{" "}
+                  — refusals say why.
+                </span>
+              </li>
+              <li>
+                <Ck />
+                <span>
+                  You never paste a private key. The agent is approved with{" "}
+                  <a href="#proof">one signature in your browser</a>.
+                </span>
+              </li>
+              <li>
+                <Ck />
+                <span>
+                  Trade-only agent wallet — it can&rsquo;t withdraw,{" "}
                   <a href="#faq">revocable in one click</a>.
-                </span>
-              </li>
-              <li>
-                <Ck />
-                <span>
-                  Exits and stops that fill mid-bar{" "}
-                  <a href="#how">still execute</a> — nothing refused as
-                  &ldquo;stale&rdquo;.
-                </span>
-              </li>
-              <li>
-                <Ck />
-                <span>
-                  <strong>
-                    Your system,{" "}
-                    <a
-                      href="https://t.me/popspineledger"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      executed — while you live your life
-                    </a>
-                    .
-                  </strong>
                 </span>
               </li>
             </ul>
@@ -136,17 +135,18 @@ export function Hero() {
             <div className="jnum">2</div>
             <h3>Connect a trade-only agent wallet.</h3>
             <p>
-              One signature, scoped to trading only, revocable by you at any
-              time. Your private key never leaves your wallet.
+              You never paste a private key. The agent is approved with one
+              signature in your browser — trade-only, it can&rsquo;t withdraw,
+              and you can revoke it at any time.
             </p>
           </div>
           <div className="jstep rv d2">
             <div className="jnum">3</div>
             <h3>That&rsquo;s it. Signals execute 24/7.</h3>
             <p>
-              Every entry, exit, and stop lands on Hyperliquid whether
-              you&rsquo;re at the screen or asleep — with the receipt on your
-              phone before you&rsquo;ve looked up.
+              Your system, executed — while you live your life. The signal is
+              still your own TradingView alert, and every entry, exit and stop
+              lands on Hyperliquid with the receipt on your phone.
             </p>
           </div>
         </div>
